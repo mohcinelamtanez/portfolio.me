@@ -66,7 +66,7 @@ export function Hero() {
           </dl>
         </div>
 
-        <div className="relative mx-auto aspect-square w-44 shrink-0 overflow-hidden rounded-full border border-border shadow-sm sm:w-56 md:mx-0 md:mt-1 md:w-64 lg:w-72 xl:w-80">
+        <div className="relative mx-auto aspect-square w-44 shrink-0 overflow-hidden rounded-full border border-border shadow-sm sm:w-56 md:mx-0 md:mt-6 md:w-64 lg:w-72 xl:w-80">
           <Image
             src="/profile.png"
             alt={siteConfig.name}
