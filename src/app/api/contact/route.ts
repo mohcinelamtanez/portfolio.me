@@ -33,27 +33,40 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Message is too long." }, { status: 422 });
   }
 
-  // Plug in a transactional email provider here (e.g. Resend, Postmark, SES).
-  // Kept provider-agnostic and unauthenticated in this template so it builds
-  // without requiring secrets — wire up your provider's SDK/API in this block.
-  //
-  // Example (Resend):
-  // await fetch("https://api.resend.com/emails", {
-  //   method: "POST",
-  //   headers: {
-  //     Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     from: "portfolio@yourdomain.dev",
-  //     to: "you@yourdomain.dev",
-  //     subject: `Portfolio contact from ${name}`,
-  //     text: message,
-  //     reply_to: email,
-  //   }),
-  // });
+  const apiKey = process.env.RESEND_API_KEY;
+  const fromAddress = process.env.CONTACT_FROM_EMAIL; // e.g. "Portfolio <portfolio@yourdomain.dev>"
+  const toAddress = process.env.CONTACT_TO_EMAIL;     // e.g. "you@yourdomain.dev"
 
-  console.log("[contact] new message", { name, email, length: message.length });
+  if (!apiKey || !fromAddress || !toAddress) {
+    console.error("[contact] missing Resend config (RESEND_API_KEY / CONTACT_FROM_EMAIL / CONTACT_TO_EMAIL)");
+    return NextResponse.json({ error: "Server is not configured to send messages." }, { status: 500 });
+  }
+
+  try {
+    const resendRes = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: fromAddress,
+        to: toAddress,
+        subject: `Portfolio contact from ${name}`,
+        text: `From: ${name} <${email}>\n\n${message}`,
+        reply_to: email,
+      }),
+    });
+
+    if (!resendRes.ok) {
+      const errBody = await resendRes.text();
+      console.error("[contact] Resend error", resendRes.status, errBody);
+      return NextResponse.json({ error: "Failed to send message." }, { status: 502 });
+    }
+  } catch (err) {
+    console.error("[contact] Resend request failed", err);
+    return NextResponse.json({ error: "Failed to send message." }, { status: 502 });
+  }
 
   return NextResponse.json({ ok: true });
 }
