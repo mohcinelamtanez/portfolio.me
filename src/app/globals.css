@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 6% 4%;        /* #0A0A0B */
+    --surface: 240 4% 7%;           /* #111113 */
+    --surface-hover: 240 4% 10%;
+    --border: 240 4% 14%;           /* #1F1F23 */
+    --foreground: 240 6% 94%;       /* #EDEDEF */
+    --muted: 240 3% 58%;            /* #8B8B93 */
+    --accent: 217 100% 66%;         /* #4F8CFF */
+    --accent-foreground: 240 6% 4%;
+    --success: 137 55% 42%;         /* #3FB950 */
+    --warning: 38 92% 55%;
+    --danger: 0 72% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  ::selection {
+    background-color: hsl(var(--accent) / 0.25);
+    color: hsl(var(--foreground));
+  }
+  :focus-visible {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted) / 0.5);
+  }
+}
+
+@layer components {
+  .section-eyebrow {
+    @apply font-mono text-2xs uppercase tracking-widest text-accent;
+  }
+  .hairline {
+    @apply border-t border-border;
+  }
+  .container-narrow {
+    @apply mx-auto w-full max-w-[1180px] px-6;
+  }
+  .card-surface {
+    @apply rounded-lg border border-border bg-surface;
+  }
+  .link-underline {
+    @apply underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-accent;
+  }
+}
+
+@layer utilities {
+  .bg-grid-fade {
+    background-image: var(--tw-gradient-stops), linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    background-size: 100% 100%, 42px 42px, 42px 42px;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
