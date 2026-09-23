@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     title: `${siteConfig.name} — ${siteConfig.role}`,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
-    creator: "@dkessler_dev",
+    creator: siteConfig.social.twitterHandle,
   },
   robots: {
     index: true,

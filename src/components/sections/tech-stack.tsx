@@ -4,13 +4,13 @@ import { Reveal } from "@/components/ui/reveal";
 
 export function TechStack() {
   return (
-    <section id="stack" className="hairline">
+    <section id="skills" className="hairline">
       <div className="container-narrow py-24">
         <Reveal>
           <SectionHeading
-            eyebrow="// 02 — stack"
-            title="Tools I reach for"
-            description="Grouped by what problem they solve, not ranked by proficiency — the projects below are the actual proof of depth."
+            eyebrow="// 02 — skills"
+            title="What I bring to a product"
+            description="Grouped by capability, not ranked by proficiency. Everything listed is backed by a project or a role on this page, and what I'm still learning is marked as such."
           />
         </Reveal>
 

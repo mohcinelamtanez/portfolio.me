@@ -37,9 +37,9 @@ export function Contact() {
       <div className="container-narrow py-24">
         <Reveal>
           <SectionHeading
-            eyebrow="// 07 — contact"
+            eyebrow="// 05 — contact"
             title="Let's talk"
-            description="Open to Staff / Senior backend roles and interesting distributed-systems problems. I read everything that comes through here."
+            description="Open to junior Product Engineer and Software Engineer roles, internships, and projects where understanding the problem matters as much as the code. I read everything that comes through here."
           />
         </Reveal>
 

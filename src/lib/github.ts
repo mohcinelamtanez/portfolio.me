@@ -13,7 +13,7 @@ export interface GithubRepo {
   topics: string[];
 }
 
-const GITHUB_API = "https://github.com/mohcinelamtanez";
+const GITHUB_API = "https://api.github.com";
 const username = siteConfig.social.githubUsername;
 
 /**

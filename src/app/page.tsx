@@ -6,8 +6,6 @@ import { Experience } from "@/components/sections/experience";
 import { TechStack } from "@/components/sections/tech-stack";
 import { Projects } from "@/components/sections/projects";
 import { GithubIntegration } from "@/components/sections/github-integration";
-import { Certifications } from "@/components/sections/certifications";
-import { Blog } from "@/components/sections/blog";
 import { Contact } from "@/components/sections/contact";
 
 export default function HomePage() {
@@ -16,12 +14,10 @@ export default function HomePage() {
       <main id="main-content">
         <Hero />
         <About />
-        <Experience />
-        <TechStack />
         <Projects />
+        <TechStack />
+        <Experience />
         <GithubIntegration />
-        <Certifications />
-        <Blog />
         <Contact />
       </main>
       <Footer />

@@ -1,4 +1,6 @@
+import { GraduationCap } from "lucide-react";
 import { experience } from "@/lib/data/experience";
+import { education } from "@/lib/data/education";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/ui/reveal";
@@ -9,11 +11,28 @@ export function Experience() {
       <div className="container-narrow py-24">
         <Reveal>
           <SectionHeading
-            eyebrow="// 01 — experience"
-            title="Where I've worked"
-            description="Chronological record — each role scoped by what shipped and what it moved, not job-title inflation."
+            eyebrow="// 03 — experience"
+            title="Experience & education"
+            description="Two full-stack internships, a customer-facing technical role, and a 5th year of computer science studies in progress."
           />
         </Reveal>
+
+        <div className="mb-12 grid gap-4 sm:grid-cols-2">
+          {education.map((entry, i) => (
+            <Reveal key={entry.id} delay={i * 0.06}>
+              <div className="card-surface flex h-full items-start gap-4 p-5">
+                <GraduationCap className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
+                <div>
+                  <h3 className="text-sm font-medium text-foreground">{entry.program}</h3>
+                  <p className="mt-0.5 text-sm text-muted">{entry.school}</p>
+                  <p className="mt-1.5 font-mono text-2xs text-muted">
+                    {entry.status} · {entry.location}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
 
         <ol className="relative flex flex-col gap-12 border-l border-border pl-8 sm:pl-10">
           {experience.map((entry, i) => (

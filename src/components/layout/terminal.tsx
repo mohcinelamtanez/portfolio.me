@@ -16,11 +16,9 @@ interface HistoryLine {
 
 const routes: Record<string, string> = {
   about: "#about",
-  experience: "#experience",
-  stack: "#stack",
   projects: "#projects",
-  certifications: "#certifications",
-  blog: "#blog",
+  skills: "#skills",
+  experience: "#experience",
   contact: "#contact",
   top: "#top",
 };
@@ -28,11 +26,9 @@ const routes: Record<string, string> = {
 const COMMANDS = [
   "help",
   "about",
-  "experience",
-  "stack",
   "projects",
-  "certifications",
-  "blog",
+  "skills",
+  "experience",
   "contact",
   "resume",
   "github",
@@ -53,7 +49,11 @@ function runCommand(raw: string, close: () => void): string[] {
   }
 
   if (cmd === "whoami") {
-    return [`${siteConfig.name} — ${siteConfig.role}`, siteConfig.location];
+    return [
+      `${siteConfig.name} — ${siteConfig.role} · ${siteConfig.roleDetail}`,
+      siteConfig.tagline,
+      siteConfig.location,
+    ];
   }
 
   if (cmd === "resume") {

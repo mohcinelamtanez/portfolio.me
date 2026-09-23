@@ -15,10 +15,17 @@ export function Hero() {
 
       <div className="container-narrow relative grid gap-12 pb-24 pt-40 sm:pt-48 md:grid-cols-[1fr_auto] md:items-start">
         <div className="flex flex-col gap-8">
-          <Badge variant="accent" className="w-fit gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-success" />
-            {siteConfig.availability}
-          </Badge>
+          <div className="flex flex-col gap-4">
+            <Badge variant="accent" className="w-fit gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-success" />
+              {siteConfig.availability}
+            </Badge>
+            <p className="font-mono text-sm text-muted">
+              <span className="text-foreground">{siteConfig.role}</span>
+              <span className="text-accent"> · </span>
+              {siteConfig.roleDetail}
+            </p>
+          </div>
 
           <h1 className="max-w-3xl text-balance text-4xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-6xl">
             {siteConfig.tagline}
@@ -31,7 +38,7 @@ export function Hero() {
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <Button asChild size="lg" className="gap-2">
               <a href="#projects">
-                View engineering work <ArrowRight className="h-4 w-4" />
+                See what I&apos;ve built <ArrowRight className="h-4 w-4" />
               </a>
             </Button>
             <Button asChild variant="outline" size="lg">

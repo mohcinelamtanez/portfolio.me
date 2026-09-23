@@ -1,4 +1,4 @@
-# Backend Engineer Portfolio
+# Product Engineer Portfolio
 
 A production-grade portfolio template for backend engineers, built to read like an
 engineering artifact — not a student project. Design language inspired by Stripe,

@@ -12,7 +12,10 @@ export function ProjectCaseStudyBlock({ project }: { project: ProjectCaseStudy }
       <div className="flex flex-col gap-6 border-b border-border p-6 sm:p-8">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
           <div>
-            <h3 className="text-xl font-semibold text-foreground">{project.name}</h3>
+            <div className="flex flex-wrap items-center gap-2">
+              <h3 className="text-xl font-semibold text-foreground">{project.name}</h3>
+              {project.collaboration ? <Badge>{project.collaboration}</Badge> : null}
+            </div>
             <p className="mt-1 max-w-xl text-sm leading-relaxed text-muted">{project.tagline}</p>
           </div>
           <div className="flex shrink-0 gap-2">
@@ -38,14 +41,58 @@ export function ProjectCaseStudyBlock({ project }: { project: ProjectCaseStudy }
           </div>
         </div>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-foreground/90">{project.problem}</p>
+        <div className="grid gap-6 md:grid-cols-2">
+          <div>
+            <h4 className="mb-2 font-mono text-2xs uppercase tracking-wide text-muted">
+              01 · The need
+            </h4>
+            <p className="text-sm leading-relaxed text-foreground/90">{project.problem}</p>
+          </div>
+          <div>
+            <h4 className="mb-2 font-mono text-2xs uppercase tracking-wide text-muted">
+              02 · The solution
+            </h4>
+            <p className="text-sm leading-relaxed text-foreground/90">{project.solution}</p>
+          </div>
+        </div>
 
+        <div>
+          <h4 className="mb-3 font-mono text-2xs uppercase tracking-wide text-muted">
+            03 · What was built
+          </h4>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {project.features.map((group) => (
+              <div key={group.area} className="rounded-md border border-border p-4">
+                <h5 className="mb-2 text-sm font-medium text-foreground">{group.area}</h5>
+                <ul className="flex flex-col gap-1.5">
+                  {group.items.map((item) => (
+                    <li key={item} className="flex gap-2 text-sm leading-relaxed text-muted">
+                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <h4 className="-mb-3 font-mono text-2xs uppercase tracking-wide text-muted">
+          04 · Built with
+        </h4>
         <div className="flex flex-wrap gap-1.5">
           {project.stack.map((s) => (
             <Badge key={s} variant="outline">
               {s}
             </Badge>
           ))}
+        </div>
+
+        <div className="border-l-2 border-accent pl-4">
+          <h4 className="mb-1.5 font-mono text-2xs uppercase tracking-wide text-muted">
+            05 · The result
+          </h4>
+          <p className="max-w-3xl text-sm leading-relaxed text-foreground">{project.outcome}</p>
         </div>
 
         <dl className="grid grid-cols-2 gap-4 border-t border-border pt-6 sm:grid-cols-4">
@@ -59,6 +106,9 @@ export function ProjectCaseStudyBlock({ project }: { project: ProjectCaseStudy }
       </div>
 
       <div className="p-6 sm:p-8">
+        <h4 className="mb-4 font-mono text-2xs uppercase tracking-wide text-muted">
+          Engineering details
+        </h4>
         <Tabs defaultValue="architecture">
           <TabsList>
             <TabsTrigger value="architecture">Architecture</TabsTrigger>

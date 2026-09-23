@@ -5,119 +5,160 @@ export const projects: ProjectCaseStudy[] = [
   slug: "banqueapp",
   name: "BanqueApp",
   tagline:
-    "A full-stack loan management platform combining banking workflows, secure REST APIs, and machine-learning-based credit risk assessment.",
+    "A full-stack lending platform that takes a consumer loan from the client's first request to its last repayment, with role-based workspaces for bank staff and a self-service portal for clients.",
 
   problem:
-    "Loan management applications need to coordinate customer information, loan lifecycle operations, repayment calculations, access control, and credit-risk evaluation without tightly coupling business rules to the user interface or persistence layer. BanqueApp was built to explore how these concerns can be separated into a maintainable application architecture while exposing a clean REST API to the frontend.",
+    "A lending institution has to manage the whole life of a credit: onboarding clients, collecting loan requests, checking eligibility, evaluating risk, issuing the loan, and tracking every monthly repayment. Different people take part in that process (administrators, bank agents, and the clients themselves) and each must see and do only what their role allows. When these rules live only in the user interface or are scattered across the code, they are easy to bypass and hard to evolve.",
+
+  solution:
+    "I modelled the real lending workflow first (who acts, in which order, under which rules) and built the product around it: a Spring Boot API that owns every business rule and permission, a React application that renders a different workspace depending on who is signed in, and a separate machine-learning service that scores credit risk before a loan is approved.",
+
+  features: [
+    {
+      area: "Access & roles",
+      items: [
+        "Registration and login with stateless JWT authentication",
+        "Three roles (admin, bank agent, client) enforced on the server, not only hidden in the UI",
+        "Admin user management: create accounts and assign roles",
+      ],
+    },
+    {
+      area: "Lending workflow",
+      items: [
+        "Client onboarding with business references (CLI-1) instead of database IDs",
+        "Loan applications with eligibility checks: complete profile, no active loan, no pending request",
+        "Agent review queue with approve or reject decisions that automatically create the loan",
+        "Monthly repayment schedule generated when a loan becomes active, with payments tracked until the loan is completed",
+      ],
+    },
+    {
+      area: "Client portal",
+      items: [
+        "Self-service profile with photo upload",
+        "Personal views of applications, loans, and payment history",
+        "In-app notifications with an unread counter",
+      ],
+    },
+    {
+      area: "Risk assessment",
+      items: [
+        "Credit-risk scoring through a Flask service serving a neural-network model",
+        "A stored risk assessment (level and score) attached to every loan",
+      ],
+    },
+  ],
+
+  outcome:
+    "A complete, working product that covers the full credit lifecycle across three user roles, where the business rules cannot be bypassed from the interface and the core services are covered by unit tests.",
 
   architectureSummary:
-    "A Spring Boot REST API exposes client and loan management use cases through DTO-based request and response models. Controllers handle the HTTP boundary, services contain business rules, Spring Data JPA repositories manage persistence in MySQL, and mapper components isolate JPA entities from the external API contract. Technical database identifiers remain internal while business references such as CLI-1 are exposed to API consumers. Authentication and authorization are handled with Spring Security and JWT. Credit-risk prediction is delegated to a separate Flask API exposing a Logistic Regression model, while the React frontend consumes the application APIs through Axios.",
+    "The React 19 single-page application mounts a different route tree for staff and for clients and talks to the backend through a shared Axios client that attaches the JWT. The Spring Boot API follows a layered design: controllers handle the HTTP boundary, services own the business rules, Spring Data JPA repositories manage persistence in MySQL, and one mapper per entity keeps JPA entities out of the public API contract. Spring Security validates the JWT on every request and applies role rules centrally. Credit-risk scoring is delegated over HTTP to a separate Flask service that serves a scikit-learn neural network trained on historical loan data.",
 
   architectureDiagram: [
-    "┌──────────────────┐        ┌──────────────────────┐",
-    "│   React Frontend │───────▶│   Spring Boot API    │",
-    "│   Axios / REST   │        │                      │",
-    "└──────────────────┘        │  Controllers         │",
-    "                            │       ↓              │",
-    "                            │  DTOs / Mappers      │",
-    "                            │       ↓              │",
-    "                            │  Services            │",
-    "                            │  - business rules    │",
-    "                            │  - client lifecycle  │",
-    "                            │  - loan management   │",
-    "                            └───────┬───────┬──────┘",
-    "                                    │       │",
-    "                            ┌───────▼───┐   │",
-    "                            │ Spring Data│   │",
-    "                            │    JPA     │   │",
-    "                            └───────┬────┘   │",
-    "                                    │        │",
-    "                            ┌───────▼────┐   │",
-    "                            │   MySQL    │   │",
-    "                            │ Clients    │   │",
-    "                            │ Loans      │   │",
-    "                            └────────────┘   │",
-    "                                             │ risk request",
-    "                                             ▼",
-    "                                      ┌───────────────┐",
-    "                                      │   Flask API   │",
-    "                                      │ Logistic      │",
-    "                                      │ Regression ML │",
-    "                                      └───────────────┘",
+    "┌──────────────────────┐        ┌───────────────────────┐",
+    "│     React 19 SPA     │  JWT   │    Spring Boot API    │",
+    "│  staff workspace     │───────▶│                       │",
+    "│  client portal       │        │  JWT filter + roles   │",
+    "└──────────────────────┘        │          ↓            │",
+    "                                │  Controllers          │",
+    "                                │          ↓            │",
+    "                                │  DTOs / Mappers       │",
+    "                                │          ↓            │",
+    "                                │  Services             │",
+    "                                │  - eligibility rules  │",
+    "                                │  - loan state machine │",
+    "                                │  - payment schedule   │",
+    "                                └─────┬────────────┬────┘",
+    "                                      │            │ RestClient",
+    "                              ┌───────▼───────┐ ┌──▼────────────┐",
+    "                              │ Spring Data   │ │   Flask API   │",
+    "                              │ JPA · MySQL   │ │ neural network│",
+    "                              │ clients loans │ │ risk scoring  │",
+    "                              │ payments      │ └───────────────┘",
+    "                              └───────────────┘",
   ],
 
   decisions: [
     {
-      title: "Business references instead of exposing technical IDs",
+      title: "Model the workflow before writing endpoints",
       detail:
-        "Database primary keys remain an internal persistence concern, while API consumers identify resources through business-facing references such as CLI-1. This keeps the external API contract independent from internal database identifiers and allows JPA to continue using technical IDs for entity relationships.",
-    },
-    {
-      title: "DTOs and mappers isolate the REST contract from persistence",
-      detail:
-        "Request and response DTOs define exactly what the frontend can send and receive, while mapper components translate between DTOs and JPA entities. Update operations modify an existing managed entity rather than constructing a new one, preventing accidental inserts and protecting fields that are not meant to be changed by the client.",
+        "The application follows the real sequence of a lending process: register, complete a profile, apply, get reviewed, receive a loan, repay it. Each step has explicit preconditions, so the API reflects how the business works instead of exposing generic CRUD on every table.",
     },
     {
       title: "Business rules live in the service layer",
       detail:
-        "Controllers remain focused on HTTP concerns while services coordinate repository access and domain rules such as client creation, status transitions, reference generation, email uniqueness, and loan-related operations. This keeps transport concerns separate from application behavior.",
+        "Eligibility checks, schedule generation, and status transitions all sit in services. Controllers only translate HTTP into service calls. Loan status is a controlled state machine: a loan moves to COMPLETED once every installment is paid and back to ACTIVE if a payment is reverted, and that transition lives in one place.",
     },
     {
-      title: "Centralized REST error handling",
+      title: "Ownership-safe endpoints for clients",
       detail:
-        "Business exceptions such as missing clients or conflicting data are translated into meaningful HTTP responses through a global @RestControllerAdvice. The API preserves HTTP semantics while returning structured error information that frontend clients can interpret without duplicating exception-handling logic across controllers.",
+        "Every client-facing /me endpoint resolves the caller from the authenticated JWT rather than trusting an ID sent by the browser, so a client can never read or act on another client's data by changing a request parameter.",
     },
     {
-      title: "Machine-learning risk assessment as a separate service",
+      title: "Business references instead of technical IDs",
       detail:
-        "Credit-risk prediction is exposed through a dedicated Flask API rather than embedding the Python model directly inside the Java application. The Spring application exchanges structured data with the ML service, keeping the prediction component independently maintainable from the core banking API.",
+        "Database primary keys stay internal, while API consumers identify clients through references such as CLI-1. The external contract stays independent of the persistence layer.",
+    },
+    {
+      title: "Safe approval under concurrency",
+      detail:
+        "An application is re-validated with row-level locking at decision time, so two reviewers acting at the same moment cannot approve the same request twice or create duplicate loans.",
+    },
+    {
+      title: "Risk scoring as a separate service",
+      detail:
+        "The Python model runs behind its own Flask API and is called from Spring through RestClient. The banking API stays independent of the ML stack, and the model can be retrained without touching the Java code.",
     },
   ],
 
   testing: [
-    "REST endpoints are exercised with Postman across client management, loan operations, and credit-risk prediction flows.",
-    "API behavior is verified for successful requests as well as business-error scenarios such as missing resources, duplicate data, and invalid operations.",
-    "The project is being progressively structured for automated service and controller testing with JUnit 5 and Mockito.",
-    "Persistence behavior is validated against MySQL while debugging JPA entity lifecycle, generated identifiers, relationships, and update semantics.",
+    "Seven JUnit 5 and Mockito test classes cover the core services: clients, applications, loans, payments, users, and risk assessment.",
+    "A contract test checks the request and response shape exchanged with the ML scoring service.",
+    "Endpoints are exercised with Postman and Swagger UI across success and business-error scenarios.",
+    "A global @RestControllerAdvice maps around eighteen business exceptions to one consistent ApiError response.",
   ],
 
   deployment: [
-    "The Spring Boot backend, React frontend, MySQL database, and Flask ML service are currently developed and tested as independently running application components.",
-    "Environment-specific API configuration keeps frontend-to-backend and backend-to-ML communication separated from application code.",
-    "The project is actively evolving toward a more production-oriented setup, with deployment and containerization treated as later infrastructure concerns rather than prematurely adding operational complexity.",
+    "The Spring Boot API, React frontend, MySQL database, and Flask ML service currently run as independent components in development.",
+    "The frontend proxies API calls to the same origin in development, keeping endpoint configuration out of application code.",
+    "Containerization and hosting are planned as next steps rather than added before the product workflow was complete.",
   ],
 
   security: [
-    "Spring Security and JWT are used to separate authentication from authorization and protect role-specific API routes.",
-    "JWT authorization is handled through a request filter that restores authenticated user information into the Spring Security context.",
-    "Technical database IDs are intentionally kept out of the public API in favor of business references.",
-    "Client lifecycle rules favor status-based deactivation over destructive deletion where historical banking information must be preserved.",
+    "Stateless JWT authentication (HS512) with BCrypt password hashing.",
+    "Role rules declared centrally in the Spring Security configuration and mirrored by role-specific frontend routes.",
+    "Client /me endpoints derive identity from the token, never from a client-supplied ID.",
+    "Role assignment is restricted: no account can be promoted to administrator through the API.",
   ],
 
   metrics: [
-    { label: "Client records", value: "228+" },
-    { label: "Loan records", value: "244+" },
-    { label: "ML approach", value: "Logistic Regression" },
-    { label: "Architecture", value: "Layered REST API" },
+    { label: "User roles", value: "3" },
+    { label: "Test classes", value: "7" },
+    { label: "Scope", value: "Full stack" },
+    { label: "Risk model", value: "Neural network" },
   ],
 
   stack: [
     "Java 21",
     "Spring Boot",
-    "Spring Data JPA",
     "Spring Security",
     "JWT",
+    "Spring Data JPA",
     "MySQL",
     "React",
+    "Vite",
+    "Tailwind CSS",
     "Axios",
+    "i18next",
     "Python",
     "Flask",
     "Scikit-learn",
-    "Postman",
+    "JUnit 5",
+    "Mockito",
+    "Swagger / OpenAPI",
   ],
 
   github: "https://github.com/mohcinelamtanez/BanqueApp-SpringBoot.git",
-  apiDocsUrl: "Not yet",
   featured: true,
 },
 
@@ -125,10 +166,51 @@ export const projects: ProjectCaseStudy[] = [
   slug: "medpredict",
   name: "MedPredict",
   tagline:
-    "A medical practice management platform combining role-based clinical workflows, asynchronous patient reminders, and a machine-learning service that suggests likely diagnoses from symptoms.",
+    "A medical practice management platform that combines role-based clinical workflows, automatic patient reminders, and a machine-learning assistant that suggests likely diagnoses from symptoms.",
+  collaboration: "Team project",
 
   problem:
-    "A medical practice has to coordinate patients, doctors, appointments, consultations, and prescriptions across staff with very different responsibilities, while patients expect to book and follow their own care online. MedPredict was built to explore how these workflows can be modelled behind a single role-aware REST API, how time-based work such as appointment reminders can be moved out of the request cycle, and how a machine-learning model can assist, not replace, the physician during a consultation.",
+    "A medical practice has to coordinate patients, doctors, appointments, consultations, and prescriptions across staff with very different responsibilities, while patients expect to book and follow their own care online. Reminders are often handled by hand, and doctors get little help when narrowing down a diagnosis from a list of symptoms.",
+
+  solution:
+    "We built a single role-aware platform for the whole practice: a REST API that models the clinical workflow for each type of user, a patient portal for self-service booking, background jobs that send confirmations and reminders automatically, and a separate machine-learning service that suggests the three most likely pathologies during a consultation, while the final diagnosis always stays with the doctor.",
+
+  features: [
+    {
+      area: "Practice management",
+      items: [
+        "Patient and doctor records with medical history, allergies, and specialisations",
+        "Appointments with a calendar view, a status workflow, and slot-conflict checks",
+        "Consultations with symptom autocomplete and prescriptions exported as PDF",
+      ],
+    },
+    {
+      area: "Roles & patient portal",
+      items: [
+        "Four roles: admin, doctor, secretary, and patient",
+        "Patients book, edit, and cancel their own appointments and see their records",
+        "A FAQ chatbot to guide patients through the portal",
+      ],
+    },
+    {
+      area: "Automation",
+      items: [
+        "Booking confirmation emails sent in the background",
+        "Daily 08:00 reminders for next-day appointments",
+        "Dashboard of consultation trends, top pathologies, and AI usage",
+      ],
+    },
+    {
+      area: "AI-assisted diagnosis",
+      items: [
+        "Random Forest model trained with scikit-learn on symptom data",
+        "Top-3 pathology suggestions with confidence scores, stored alongside the doctor's own diagnosis",
+      ],
+    },
+  ],
+
+  outcome:
+    "A working platform that covers the daily operations of a practice for four types of users, takes repetitive reminders off the staff's plate, and brings AI into the consultation as decision support rather than an automated verdict.",
 
   architectureSummary:
     "A Django REST Framework API exposes patients, doctors, appointments, consultations, prescriptions, dashboard statistics, and a patient portal. ViewSets and APIViews handle the HTTP boundary, serializers own validation and representation, and DRF permission classes enforce four roles: admin, doctor, secretary, and patient. PostgreSQL stores the clinical data, with JSON fields for symptom lists, AI suggestions, and prescribed medications. Appointment confirmations and a daily 08:00 reminder job are pushed to Celery workers through Redis, with schedules managed by django-celery-beat. Diagnosis suggestions come from a separate Flask service that serves a scikit-learn Random Forest and returns the three most likely pathologies with confidence scores. A React and Vite frontend consumes the API through Axios, and the whole stack runs as Docker Compose services.",
@@ -224,7 +306,7 @@ export const projects: ProjectCaseStudy[] = [
   metrics: [
     { label: "User roles", value: "4" },
     { label: "Compose services", value: "6" },
-    { label: "ML approach", value: "Random Forest" },
+    { label: "Scope", value: "Full stack" },
     { label: "AI output", value: "Top-3 diagnoses" },
   ],
 

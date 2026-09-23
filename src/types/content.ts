@@ -20,11 +20,23 @@ export interface ProjectMetric {
   value: string;
 }
 
+export interface EducationEntry {
+  id: string;
+  school: string;
+  program: string;
+  location: string;
+  status: string;
+}
+
 export interface ProjectCaseStudy {
   slug: string;
   name: string;
   tagline: string;
+  collaboration?: string;
   problem: string;
+  solution: string;
+  features: { area: string; items: string[] }[];
+  outcome: string;
   architectureSummary: string;
   architectureDiagram: string[]; // ASCII-style layered description, rendered in a code block
   decisions: { title: string; detail: string }[];

@@ -9,7 +9,7 @@ export const experience: ExperienceEntry[] = [
   end: "Present",
   location: "Casablanca, Morocco",
   summary:
-    "Provided technical support for B2B telecom services, troubleshooting customer issues, analyzing incidents, and collaborating with experienced engineers to resolve complex technical cases.",
+    "Supporting B2B telecom customers taught me to start from the user's problem: understanding what they experience, diagnosing the cause, and working with experienced engineers to resolve complex technical cases.",
   highlights: [
     "Investigated and resolved technical issues by analyzing customer inquiries, service information, and internal systems while following established troubleshooting procedures.",
     "Escalated complex or unresolved technical incidents to experienced engineers, providing clear diagnostic information and relevant case context to facilitate efficient resolution.",
