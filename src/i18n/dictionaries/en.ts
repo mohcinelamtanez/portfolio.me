@@ -9,7 +9,6 @@ import { siteConfig } from "@/config/site";
 export const en = {
   common: {
     skipToContent: "Skip to content",
-    booting: "booting portfolio",
   },
 
   language: {
@@ -45,7 +44,7 @@ export const en = {
   },
 
   about: {
-    eyebrow: "// 00 — about",
+    eyebrow: "About",
     title: "Product Engineer with a software engineering foundation",
     description:
       "For me, product engineering means owning the path from a need to a working solution. I'm a 5th-year student at ISGA Casablanca, and I learn best by building complete products: understanding who they're for, choosing what to build first, and shipping every layer with care for security and maintainability. AI is part of how I work, inside products when it solves a real problem, and in my daily workflow to prototype, explore, and debug faster.",
@@ -74,20 +73,21 @@ export const en = {
   },
 
   projects: {
-    eyebrow: "// 01 — projects",
+    eyebrow: "Projects",
     title: "Products I've built",
     description:
-      "Each project starts with the need it answers, then what was built and why. The engineering details (architecture, decisions, testing, and security) are one tab away.",
+      "Each project starts with the need it answers and the result it delivers. Features, architecture, decisions, testing and security are one tab away.",
     source: "Source",
     apiDocs: "API docs",
     live: "Live",
     need: "01 · The need",
     solution: "02 · The solution",
-    built: "03 · What was built",
-    builtWith: "04 · Built with",
-    result: "05 · The result",
-    engineeringDetails: "Engineering details",
+    builtWith: "03 · Built with",
+    result: "04 · The result",
+    showDetails: "Explore features & engineering",
+    hideDetails: "Hide details",
     tabs: {
+      features: "Features",
       architecture: "Architecture",
       decisions: "Decisions",
       testing: "Testing & Deploy",
@@ -98,21 +98,21 @@ export const en = {
   },
 
   skills: {
-    eyebrow: "// 02 — skills",
+    eyebrow: "Skills",
     title: "What I bring to a product",
     description:
       "Grouped by capability, not ranked by proficiency. Everything listed is backed by a project or a role on this page, and what I'm still learning is marked as such.",
   },
 
   experience: {
-    eyebrow: "// 03 — experience",
+    eyebrow: "Experience",
     title: "Experience & education",
     description:
       "Two full-stack internships, two successive B2B roles at TELUS International, and a 5th year of computer science studies in progress.",
   },
 
   github: {
-    eyebrow: "// 04 — github",
+    eyebrow: "GitHub",
     title: "Live from GitHub",
     stats: (repos: number, followers: number) =>
       `${repos} public repositories · ${followers} followers — pulled live via the GitHub API.`,
@@ -131,7 +131,7 @@ export const en = {
   },
 
   contact: {
-    eyebrow: "// 05 — contact",
+    eyebrow: "Contact",
     title: "Let's talk",
     description:
       "Open to junior Product Engineer and Software Engineer roles, internships, and projects where understanding the problem matters as much as the code. I read everything that comes through here.",
@@ -149,8 +149,6 @@ export const en = {
   footer: {
     builtWith: "Built with Next.js, TypeScript & Tailwind — source on GitHub.",
     rights: (year: number, name: string) => `© ${year} ${name}. All rights reserved.`,
-    status: "Status:",
-    operational: "● operational",
   },
 
   terminal: {
@@ -170,7 +168,7 @@ export const en = {
   notFound: {
     eyebrow: "error 404",
     title: "route not found",
-    body: "The page you're looking for doesn't exist, or the endpoint moved. Try the command terminal (⌘K) instead.",
+    body: "The page you're looking for doesn't exist, or the endpoint moved. Try the command terminal (⌘K / Ctrl+K) instead.",
     home: "cd ~/home",
   },
 };

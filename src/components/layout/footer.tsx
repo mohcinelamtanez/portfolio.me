@@ -59,9 +59,6 @@ export function Footer() {
       <div className="hairline border-border">
         <div className="container-narrow flex flex-col gap-2 py-4 text-2xs font-mono text-muted sm:flex-row sm:items-center sm:justify-between">
           <span>{t.footer.rights(new Date().getFullYear(), siteConfig.name)}</span>
-          <span>
-            {t.footer.status} <span className="text-success">{t.footer.operational}</span>
-          </span>
         </div>
       </div>
     </footer>

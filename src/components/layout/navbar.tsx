@@ -16,6 +16,12 @@ export function Navbar({ onOpenTerminal }: { onOpenTerminal: () => void }) {
   const navItems = navSections.map((id) => ({ href: `#${id}`, label: t.nav[id] }));
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  // The command palette opens with Cmd+K on Apple devices and Ctrl+K elsewhere.
+  const [shortcut, setShortcut] = useState("Ctrl K");
+
+  useEffect(() => {
+    if (/Mac|iPhone|iPad/i.test(navigator.userAgent)) setShortcut("⌘K");
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -63,7 +69,7 @@ export function Navbar({ onOpenTerminal }: { onOpenTerminal: () => void }) {
             aria-label={t.nav.openTerminal}
           >
             <TerminalIcon className="h-3.5 w-3.5" />
-            <span>⌘L</span>
+            <span>{shortcut}</span>
           </Button>
           <Button variant="ghost" size="icon" asChild aria-label={t.nav.githubProfile}>
             <a href={siteConfig.social.github} target="_blank" rel="noreferrer noopener">

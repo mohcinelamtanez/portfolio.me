@@ -11,7 +11,7 @@ export function Blog() {
       <div className="container-narrow py-24">
         <Reveal>
           <SectionHeading
-            eyebrow="// 06 — writing"
+            eyebrow="Writing"
             title="Technical writing"
             description="Notes from production — the parts that don't make it into the postmortem summary."
           />

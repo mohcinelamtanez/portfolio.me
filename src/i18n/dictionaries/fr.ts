@@ -5,7 +5,6 @@ import type { Dictionary } from "@/i18n/dictionaries/en";
 export const fr: Dictionary = {
   common: {
     skipToContent: "Aller au contenu",
-    booting: "démarrage du portfolio",
   },
 
   language: {
@@ -42,7 +41,7 @@ export const fr: Dictionary = {
   },
 
   about: {
-    eyebrow: "// 00 — à propos",
+    eyebrow: "À propos",
     title: "Product Engineer avec une solide base en software engineering",
     description:
       "Pour moi, le product engineering consiste à prendre en charge tout le chemin qui mène d'un besoin à une solution qui fonctionne. Je suis en 5e année à l'ISGA Casablanca, et c'est en construisant des produits complets que j'apprends le mieux : comprendre pour qui ils sont faits, choisir ce qu'il faut construire en premier, et livrer chaque couche en soignant la sécurité et la maintenabilité. L'IA fait partie de ma façon de travailler : dans les produits lorsqu'elle résout un vrai problème, et au quotidien pour prototyper, explorer et déboguer plus vite.",
@@ -71,20 +70,21 @@ export const fr: Dictionary = {
   },
 
   projects: {
-    eyebrow: "// 01 — projets",
+    eyebrow: "Projets",
     title: "Les produits que j'ai construits",
     description:
-      "Chaque projet part du besoin auquel il répond, puis présente ce qui a été construit et pourquoi. Les détails techniques (architecture, décisions, tests et sécurité) sont à un onglet de distance.",
+      "Chaque projet part du besoin auquel il répond et du résultat obtenu. Fonctionnalités, architecture, décisions, tests et sécurité sont à un onglet de distance.",
     source: "Code source",
     apiDocs: "Doc API",
     live: "En ligne",
     need: "01 · Le besoin",
     solution: "02 · La solution",
-    built: "03 · Ce qui a été construit",
-    builtWith: "04 · Technologies",
-    result: "05 · Le résultat",
-    engineeringDetails: "Détails techniques",
+    builtWith: "03 · Technologies",
+    result: "04 · Le résultat",
+    showDetails: "Voir les fonctionnalités et la technique",
+    hideDetails: "Masquer les détails",
     tabs: {
+      features: "Fonctionnalités",
       architecture: "Architecture",
       decisions: "Décisions",
       testing: "Tests & déploiement",
@@ -95,21 +95,21 @@ export const fr: Dictionary = {
   },
 
   skills: {
-    eyebrow: "// 02 — compétences",
+    eyebrow: "Compétences",
     title: "Ce que j'apporte à un produit",
     description:
       "Regroupées par domaine, sans classement par niveau. Chaque élément s'appuie sur un projet ou une expérience présentés sur cette page, et ce que je suis encore en train d'apprendre est indiqué comme tel.",
   },
 
   experience: {
-    eyebrow: "// 03 — parcours",
+    eyebrow: "Parcours",
     title: "Expérience & formation",
     description:
       "Deux stages full stack, deux postes B2B successifs chez TELUS International et une 5e année d'études en informatique en cours.",
   },
 
   github: {
-    eyebrow: "// 04 — github",
+    eyebrow: "GitHub",
     title: "En direct de GitHub",
     stats: (repos: number, followers: number) =>
       `${repos} dépôts publics · ${followers} abonnés — récupérés en direct via l'API GitHub.`,
@@ -128,7 +128,7 @@ export const fr: Dictionary = {
   },
 
   contact: {
-    eyebrow: "// 05 — contact",
+    eyebrow: "Contact",
     title: "Échangeons",
     description:
       "Ouvert aux postes de Product Engineer et de Software Engineer junior, aux stages, et aux projets où comprendre le problème compte autant que le code. Je lis tous les messages reçus ici.",
@@ -146,8 +146,6 @@ export const fr: Dictionary = {
   footer: {
     builtWith: "Réalisé avec Next.js, TypeScript et Tailwind — code source sur GitHub.",
     rights: (year: number, name: string) => `© ${year} ${name}. Tous droits réservés.`,
-    status: "Statut :",
-    operational: "● opérationnel",
   },
 
   terminal: {
@@ -167,7 +165,7 @@ export const fr: Dictionary = {
   notFound: {
     eyebrow: "erreur 404",
     title: "page introuvable",
-    body: "La page que vous cherchez n'existe pas ou a été déplacée. Essayez plutôt le terminal de commandes (⌘K).",
+    body: "La page que vous cherchez n'existe pas ou a été déplacée. Essayez plutôt le terminal de commandes (⌘K / Ctrl+K).",
     home: "cd ~/accueil",
   },
 };

@@ -8,7 +8,7 @@ export function Certifications() {
     <section id="certifications" className="hairline">
       <div className="container-narrow py-24">
         <Reveal>
-          <SectionHeading eyebrow="// 05 — certifications" title="Certifications" />
+          <SectionHeading eyebrow="Certifications" title="Certifications" />
         </Reveal>
 
         <div className="grid gap-4 sm:grid-cols-2">
