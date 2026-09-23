@@ -74,7 +74,7 @@ export function GithubView({ pinnedRepos, latestRepos, profile }: GithubViewProp
           ))}
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] [&>*]:min-w-0">
+        <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] max-lg:[&>*]:min-w-0">
           <Reveal>
             <ContributionGraph />
           </Reveal>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { useI18n } from "@/i18n/language-provider";
 
@@ -35,6 +35,7 @@ function generateSyntheticYear(): ContributionDay[] {
 export function ContributionGraph() {
   const { t } = useI18n();
   const [days, setDays] = useState<ContributionDay[] | null>(null);
+  const graphRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,6 +57,12 @@ export function ContributionGraph() {
       cancelled = true;
     };
   }, []);
+
+  // When the graph is narrower than a full year (mobile), start on the most recent weeks.
+  useEffect(() => {
+    const graph = graphRef.current;
+    if (graph) graph.scrollLeft = graph.scrollWidth;
+  }, [days]);
 
   const weeks: ContributionDay[][] = [];
   if (days) {
@@ -83,7 +90,7 @@ export function ContributionGraph() {
       {!days ? (
         <div className="h-[104px] animate-pulse rounded-md bg-surface-hover" aria-hidden="true" />
       ) : (
-        <div className="flex gap-1 overflow-x-auto pb-1" role="img" aria-label={t.github.contributions.graphLabel}>
+        <div ref={graphRef} className="flex gap-1 overflow-x-auto pb-1" role="img" aria-label={t.github.contributions.graphLabel}>
           {weeks.map((week, wi) => (
             <div key={wi} className="flex flex-col gap-1">
               {week.map((day) => (
