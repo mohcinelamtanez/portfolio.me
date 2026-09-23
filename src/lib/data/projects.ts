@@ -2,164 +2,8 @@ import type { ProjectCaseStudy } from "@/types/content";
 
 export const projects: ProjectCaseStudy[] = [
  {
-  slug: "teamtrackingapp",
-  name: "TeamTrackingApp",
-  tagline:
-    "A lightweight task tracker for a small operational team: support plans who owns which task each week, agents confirm their work every day, and extra help between colleagues is finally visible.",
-
-  problem:
-    "In a small operational team, a support person assigns recurring task types to agents every week, then needs to know each day who has done their part and who stepped in to help on a task that was not theirs. When this is tracked by hand, the support side has little day-to-day visibility, and the extra help agents give each other easily goes unrecorded. I identified this need in the B2B operations team I work in at TELUS International, and designed and developed TeamTrackingApp in my role there to digitalise it (see Experience).",
-
-  solution:
-    "I kept the product deliberately small and modelled it on the team's own vocabulary: a weekly assignment means \"this agent owns this task this week\", a daily completion means \"done today\", and a help record means \"I also helped with this today\". Support plans the week and reads the reports; agents only see and tick off their own tasks, for today. Keeping help records separate from official assignments means recognising extra effort never blurs who was responsible.",
-
-  features: [
-    {
-      area: "Support workspace",
-      items: [
-        "Weekly planning: assign any number of agents to each task type (GTPS, WIP/IP, VOIP)",
-        "Copy the previous week's assignments in one click, skipping inactive agents",
-        "Daily status and weekly report, each with a plain-text version to copy into the operational report",
-      ],
-    },
-    {
-      area: "Agent workspace",
-      items: [
-        "Today view: mark an assigned task as done, or undo it, for the current day only",
-        "Record help given on another task, with an optional note",
-        "Personal history of past weeks and help records",
-      ],
-    },
-    {
-      area: "Team & access",
-      items: [
-        "Two roles, Support and Agent, enforced by the API rather than only hidden in the UI",
-        "Support manages accounts: create agents, rename, reset passwords, deactivate",
-        "A deactivated account loses access immediately, even with a token still valid",
-      ],
-    },
-    {
-      area: "Workflow rules",
-      items: [
-        "The same agent can't hold the same task twice in a week",
-        "An assignment that already has completed days can't be deleted, so history is kept",
-        "An agent can't record help on a task they already officially own that week",
-      ],
-    },
-  ],
-
-  outcome:
-    "A working full-stack application that turns a manual weekly routine into one shared tool: support gets a daily and weekly view of the team's work, agents get recognition for the help they give, and the business rules of the workflow are enforced by the backend and covered by API integration tests.",
-
-  architectureSummary:
-    "A React 19 single-page application built with Vite mounts a separate route tree for each role and talks to the backend through an Axios client that attaches the JWT. The Spring Boot 4 API is organised by business feature (assignments, completions, help, reports, users), each with its own controller, service, repository and DTOs. Authentication uses Spring Security's built-in JWT support: the token only carries the user id, and the role and active flag are read from the database on every request, so deactivating an account takes effect immediately. Business rules live in transactional services, backed by database constraints, and a global exception handler returns consistent JSON errors. Data is stored in MySQL through Spring Data JPA; integration tests run against an in-memory H2 database.",
-
-  architectureDiagram: [
-    "┌──────────────────────┐        ┌───────────────────────┐",
-    "│     React 19 SPA     │  JWT   │    Spring Boot API    │",
-    "│  support: planning   │───────▶│                       │",
-    "│  agent: today / help │        │  JWT → user from DB   │",
-    "└──────────────────────┘        │  (role, active flag)  │",
-    "                                │          ↓            │",
-    "                                │  Controllers          │",
-    "                                │          ↓            │",
-    "                                │  Services             │",
-    "                                │  - assignment rules   │",
-    "                                │  - daily completions  │",
-    "                                │  - help records       │",
-    "                                │  - reports            │",
-    "                                └───────────┬───────────┘",
-    "                                            │ Spring Data JPA",
-    "                                  ┌─────────▼──────────┐",
-    "                                  │       MySQL        │",
-    "                                  │ weekly_assignments │",
-    "                                  │ daily_completions  │",
-    "                                  │ help_records       │",
-    "                                  │ users              │",
-    "                                  └────────────────────┘",
-  ],
-
-  decisions: [
-    {
-      title: "Start from the workflow, keep the scope small",
-      detail:
-        "The app covers exactly the loop the team runs every week: plan, complete, help, report. There is no generic project-management layer, so each screen maps to a real step of the routine and the tool stays quick to adopt.",
-    },
-    {
-      title: "Official assignments and help are separate concepts",
-      detail:
-        "Help records live in their own table and are never linked to assignments. Recording that someone helped can't change who was officially responsible, and the report can show both views side by side.",
-    },
-    {
-      title: "Preserve history instead of allowing silent edits",
-      detail:
-        "An assignment that already has completed days can't be removed, and agents can only complete or undo work for the current day. The records the support side reads stay trustworthy after the fact.",
-    },
-    {
-      title: "Access checked against the database on every request",
-      detail:
-        "The JWT only identifies the user. Role and active status are loaded from the database for each request, so deactivating an agent applies immediately without waiting for the token to expire.",
-    },
-    {
-      title: "Rules enforced in services and in the schema",
-      detail:
-        "Services reject duplicate assignments, help on a task the agent already owns, and actions on someone else's assignment. A unique constraint on agent, week and task type backs the rule at the database level.",
-    },
-    {
-      title: "Reports shaped for how they are used",
-      detail:
-        "Daily and weekly reports can be copied as plain text in the format of an operational report, so the tool fits into the existing reporting routine instead of adding a new one.",
-    },
-  ],
-
-  testing: [
-    "Six Spring Boot integration tests exercise the API through MockMvc against an in-memory H2 database, so they run without MySQL.",
-    "The tests cover authentication failures, role separation between Support and Agent endpoints, assignment rules, agents completing only their own tasks, help recorded separately from assignments, and deactivated users losing access.",
-    "Request validation and a global exception handler return consistent JSON errors for invalid input, conflicts and missing resources.",
-  ],
-
-  deployment: [
-    "The backend and frontend run locally as two applications; Vite proxies /api to the Spring Boot server during development.",
-    "Database URL, credentials, JWT secret and the first Support account are configured through environment variables, with the app refusing to start if the JWT secret is too short.",
-    "The MySQL schema is created automatically on first start, and a Support account is seeded when the users table is empty.",
-  ],
-
-  security: [
-    "Stateless JWT authentication with Spring Security's resource-server support and BCrypt password hashing.",
-    "Role-based rules declared centrally: agent endpoints under /api/me require AGENT, planning, reports and user management require SUPPORT.",
-    "An agent asking for someone else's assignment gets a \"not found\" response, so other people's records are not revealed.",
-    "Support can't deactivate their own account, which prevents locking the team out.",
-  ],
-
-  metrics: [
-    { label: "User roles", value: "2" },
-    { label: "Integration tests", value: "6" },
-    { label: "Scope", value: "Full stack" },
-    { label: "Workflow", value: "Weekly + daily" },
-  ],
-
-  stack: [
-    "Java 21",
-    "Spring Boot",
-    "Spring Security",
-    "JWT",
-    "Spring Data JPA",
-    "MySQL",
-    "React",
-    "Vite",
-    "Axios",
-    "JUnit 5",
-    "MockMvc",
-    "H2",
-  ],
-
-  github: "https://github.com/mohcinelamtanez/TeamTrackingApp.git",
-  featured: true,
-},
-
- {
   slug: "banqueapp",
-  name: "BanqueApp",
+  name: "BankLoanManagementApp",
   tagline:
     "A full-stack lending platform that takes a consumer loan from the client's first request to its last repayment, with role-based workspaces for bank staff and a self-service portal for clients.",
 
@@ -484,6 +328,162 @@ export const projects: ProjectCaseStudy[] = [
   ],
 
   github: "https://github.com/mohcinelamtanez/medPredict.git",
+  featured: true,
+},
+
+ {
+  slug: "teamtrackingapp",
+  name: "TeamTrackingApp",
+  tagline:
+    "A lightweight task tracker for a small operational team: support plans who owns which task each week, agents confirm their work every day, and extra help between colleagues is finally visible.",
+
+  problem:
+    "In a small operational team, a support person assigns recurring task types to agents every week, then needs to know each day who has done their part and who stepped in to help on a task that was not theirs. When this is tracked by hand, the support side has little day-to-day visibility, and the extra help agents give each other easily goes unrecorded. I identified this need in the B2B operations team I work in at TELUS International, and designed and developed TeamTrackingApp in my role there to digitalise it (see Experience).",
+
+  solution:
+    "I kept the product deliberately small and modelled it on the team's own vocabulary: a weekly assignment means \"this agent owns this task this week\", a daily completion means \"done today\", and a help record means \"I also helped with this today\". Support plans the week and reads the reports; agents only see and tick off their own tasks, for today. Keeping help records separate from official assignments means recognising extra effort never blurs who was responsible.",
+
+  features: [
+    {
+      area: "Support workspace",
+      items: [
+        "Weekly planning: assign any number of agents to each task type (GTPS, WIP/IP, VOIP)",
+        "Copy the previous week's assignments in one click, skipping inactive agents",
+        "Daily status and weekly report, each with a plain-text version to copy into the operational report",
+      ],
+    },
+    {
+      area: "Agent workspace",
+      items: [
+        "Today view: mark an assigned task as done, or undo it, for the current day only",
+        "Record help given on another task, with an optional note",
+        "Personal history of past weeks and help records",
+      ],
+    },
+    {
+      area: "Team & access",
+      items: [
+        "Two roles, Support and Agent, enforced by the API rather than only hidden in the UI",
+        "Support manages accounts: create agents, rename, reset passwords, deactivate",
+        "A deactivated account loses access immediately, even with a token still valid",
+      ],
+    },
+    {
+      area: "Workflow rules",
+      items: [
+        "The same agent can't hold the same task twice in a week",
+        "An assignment that already has completed days can't be deleted, so history is kept",
+        "An agent can't record help on a task they already officially own that week",
+      ],
+    },
+  ],
+
+  outcome:
+    "A working full-stack application that turns a manual weekly routine into one shared tool: support gets a daily and weekly view of the team's work, agents get recognition for the help they give, and the business rules of the workflow are enforced by the backend and covered by API integration tests.",
+
+  architectureSummary:
+    "A React 19 single-page application built with Vite mounts a separate route tree for each role and talks to the backend through an Axios client that attaches the JWT. The Spring Boot 4 API is organised by business feature (assignments, completions, help, reports, users), each with its own controller, service, repository and DTOs. Authentication uses Spring Security's built-in JWT support: the token only carries the user id, and the role and active flag are read from the database on every request, so deactivating an account takes effect immediately. Business rules live in transactional services, backed by database constraints, and a global exception handler returns consistent JSON errors. Data is stored in MySQL through Spring Data JPA; integration tests run against an in-memory H2 database.",
+
+  architectureDiagram: [
+    "┌──────────────────────┐        ┌───────────────────────┐",
+    "│     React 19 SPA     │  JWT   │    Spring Boot API    │",
+    "│  support: planning   │───────▶│                       │",
+    "│  agent: today / help │        │  JWT → user from DB   │",
+    "└──────────────────────┘        │  (role, active flag)  │",
+    "                                │          ↓            │",
+    "                                │  Controllers          │",
+    "                                │          ↓            │",
+    "                                │  Services             │",
+    "                                │  - assignment rules   │",
+    "                                │  - daily completions  │",
+    "                                │  - help records       │",
+    "                                │  - reports            │",
+    "                                └───────────┬───────────┘",
+    "                                            │ Spring Data JPA",
+    "                                  ┌─────────▼──────────┐",
+    "                                  │       MySQL        │",
+    "                                  │ weekly_assignments │",
+    "                                  │ daily_completions  │",
+    "                                  │ help_records       │",
+    "                                  │ users              │",
+    "                                  └────────────────────┘",
+  ],
+
+  decisions: [
+    {
+      title: "Start from the workflow, keep the scope small",
+      detail:
+        "The app covers exactly the loop the team runs every week: plan, complete, help, report. There is no generic project-management layer, so each screen maps to a real step of the routine and the tool stays quick to adopt.",
+    },
+    {
+      title: "Official assignments and help are separate concepts",
+      detail:
+        "Help records live in their own table and are never linked to assignments. Recording that someone helped can't change who was officially responsible, and the report can show both views side by side.",
+    },
+    {
+      title: "Preserve history instead of allowing silent edits",
+      detail:
+        "An assignment that already has completed days can't be removed, and agents can only complete or undo work for the current day. The records the support side reads stay trustworthy after the fact.",
+    },
+    {
+      title: "Access checked against the database on every request",
+      detail:
+        "The JWT only identifies the user. Role and active status are loaded from the database for each request, so deactivating an agent applies immediately without waiting for the token to expire.",
+    },
+    {
+      title: "Rules enforced in services and in the schema",
+      detail:
+        "Services reject duplicate assignments, help on a task the agent already owns, and actions on someone else's assignment. A unique constraint on agent, week and task type backs the rule at the database level.",
+    },
+    {
+      title: "Reports shaped for how they are used",
+      detail:
+        "Daily and weekly reports can be copied as plain text in the format of an operational report, so the tool fits into the existing reporting routine instead of adding a new one.",
+    },
+  ],
+
+  testing: [
+    "Six Spring Boot integration tests exercise the API through MockMvc against an in-memory H2 database, so they run without MySQL.",
+    "The tests cover authentication failures, role separation between Support and Agent endpoints, assignment rules, agents completing only their own tasks, help recorded separately from assignments, and deactivated users losing access.",
+    "Request validation and a global exception handler return consistent JSON errors for invalid input, conflicts and missing resources.",
+  ],
+
+  deployment: [
+    "The backend and frontend run locally as two applications; Vite proxies /api to the Spring Boot server during development.",
+    "Database URL, credentials, JWT secret and the first Support account are configured through environment variables, with the app refusing to start if the JWT secret is too short.",
+    "The MySQL schema is created automatically on first start, and a Support account is seeded when the users table is empty.",
+  ],
+
+  security: [
+    "Stateless JWT authentication with Spring Security's resource-server support and BCrypt password hashing.",
+    "Role-based rules declared centrally: agent endpoints under /api/me require AGENT, planning, reports and user management require SUPPORT.",
+    "An agent asking for someone else's assignment gets a \"not found\" response, so other people's records are not revealed.",
+    "Support can't deactivate their own account, which prevents locking the team out.",
+  ],
+
+  metrics: [
+    { label: "User roles", value: "2" },
+    { label: "Integration tests", value: "6" },
+    { label: "Scope", value: "Full stack" },
+    { label: "Workflow", value: "Weekly + daily" },
+  ],
+
+  stack: [
+    "Java 21",
+    "Spring Boot",
+    "Spring Security",
+    "JWT",
+    "Spring Data JPA",
+    "MySQL",
+    "React",
+    "Vite",
+    "Axios",
+    "JUnit 5",
+    "MockMvc",
+    "H2",
+  ],
+
+  github: "https://github.com/mohcinelamtanez/TeamTrackingApp.git",
   featured: true,
 },
 
