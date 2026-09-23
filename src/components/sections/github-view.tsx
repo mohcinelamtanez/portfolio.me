@@ -66,7 +66,7 @@ export function GithubView({ pinnedRepos, latestRepos, profile }: GithubViewProp
           />
         </Reveal>
 
-        <div className="mb-8 grid gap-4 sm:grid-cols-3">
+        <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {pinnedRepos.map((repo) => (
             <Reveal key={repo.id}>
               <RepoCard repo={repo} />

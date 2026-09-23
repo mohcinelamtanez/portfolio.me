@@ -7,6 +7,19 @@ import type { GithubRepo } from "@/lib/github";
  */
 export const fallbackRepos: GithubRepo[] = [
   {
+    id: 3,
+    name: "TeamTrackingApp",
+    full_name: "mohcinelamtanez/TeamTrackingApp",
+    html_url: "https://github.com/mohcinelamtanez/TeamTrackingApp",
+    description:
+      "Lightweight task tracker for an operational team: weekly assignments, daily completion and help between agents.",
+    stargazers_count: 0,
+    forks_count: 0,
+    language: "Java",
+    updated_at: new Date().toISOString(),
+    topics: ["spring-boot", "react", "jwt", "mysql"],
+  },
+  {
     id: 1,
     name: "BanqueApp-SpringBoot",
     full_name: "mohcinelamtanez/BanqueApp-SpringBoot",

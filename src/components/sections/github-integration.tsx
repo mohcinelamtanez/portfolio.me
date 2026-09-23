@@ -5,7 +5,7 @@ import { GithubView } from "@/components/sections/github-view";
 /** Fetches GitHub data on the server; rendering (and translation) happens in `GithubView`. */
 export async function GithubIntegration() {
   const [pinned, latest, profile] = await Promise.all([
-    getPinnedRepos(3),
+    getPinnedRepos(4),
     getLatestRepos(3),
     getGithubProfile(),
   ]);

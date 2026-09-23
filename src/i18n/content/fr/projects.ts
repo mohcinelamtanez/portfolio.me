@@ -22,6 +22,118 @@ export type ProjectTranslation = Pick<
 >;
 
 export const projectsFr: Record<string, ProjectTranslation> = {
+  teamtrackingapp: {
+    tagline:
+      "Un outil léger de suivi des tâches pour une petite équipe opérationnelle : le support planifie qui prend en charge quelle tâche chaque semaine, les agents confirment leur travail chaque jour, et l'entraide entre collègues devient enfin visible.",
+    collaboration: "Prototype personnel",
+
+    problem:
+      "Dans une petite équipe opérationnelle, une personne du support répartit chaque semaine des types de tâches récurrents entre les agents, puis doit savoir chaque jour qui a fait sa part et qui est venu aider sur une tâche qui n'était pas la sienne. Quand ce suivi se fait à la main, le support manque de visibilité au quotidien, et l'aide que les agents s'apportent passe facilement inaperçue. J'ai observé ce type de workflow au sein d'une équipe d'opérations B2B chez TELUS International, et j'ai construit cette application seul, comme prototype. Ce n'est pas un outil officiel de TELUS.",
+
+    solution:
+      "J'ai volontairement gardé un produit simple, calqué sur le vocabulaire de l'équipe : une affectation hebdomadaire signifie « cet agent est responsable de cette tâche cette semaine », une validation quotidienne signifie « fait aujourd'hui », et une aide signifie « j'ai aussi aidé sur cette tâche aujourd'hui ». Le support planifie la semaine et consulte les rapports ; les agents ne voient et ne valident que leurs propres tâches, pour le jour même. Séparer l'aide des affectations officielles permet de reconnaître l'effort supplémentaire sans brouiller qui était responsable.",
+
+    features: [
+      {
+        area: "Espace support",
+        items: [
+          "Planification hebdomadaire : autant d'agents que nécessaire sur chaque type de tâche (GTPS, WIP/IP, VOIP)",
+          "Reprise des affectations de la semaine précédente en un clic, en ignorant les agents désactivés",
+          "Suivi du jour et rapport hebdomadaire, chacun avec une version texte à copier dans le reporting opérationnel",
+        ],
+      },
+      {
+        area: "Espace agent",
+        items: [
+          "Vue du jour : valider une tâche affectée, ou annuler la validation, uniquement pour aujourd'hui",
+          "Déclarer une aide apportée sur une autre tâche, avec une note facultative",
+          "Historique personnel des semaines passées et des aides déclarées",
+        ],
+      },
+      {
+        area: "Équipe & accès",
+        items: [
+          "Deux rôles, Support et Agent, appliqués par l'API et pas seulement masqués dans l'interface",
+          "Le support gère les comptes : création d'agents, renommage, réinitialisation de mot de passe, désactivation",
+          "Un compte désactivé perd l'accès immédiatement, même si son token est encore valide",
+        ],
+      },
+      {
+        area: "Règles du workflow",
+        items: [
+          "Un même agent ne peut pas avoir deux fois la même tâche dans la semaine",
+          "Une affectation qui a déjà des jours validés ne peut pas être supprimée : l'historique est conservé",
+          "Un agent ne peut pas déclarer une aide sur une tâche qui lui est déjà officiellement affectée",
+        ],
+      },
+    ],
+
+    outcome:
+      "Un prototype full stack fonctionnel qui transforme une routine hebdomadaire manuelle en un outil partagé : le support dispose d'une vue quotidienne et hebdomadaire du travail de l'équipe, les agents voient leur entraide reconnue, et les règles métier du workflow sont appliquées par le backend et couvertes par des tests d'intégration de l'API.",
+
+    architectureSummary:
+      "L'application monopage React 19, construite avec Vite, monte un arbre de routes distinct pour chaque rôle et communique avec le backend via un client Axios qui ajoute le JWT. L'API Spring Boot 4 est organisée par fonctionnalité métier (affectations, validations, aides, rapports, utilisateurs), chacune avec son controller, son service, son repository et ses DTOs. L'authentification s'appuie sur le support JWT intégré à Spring Security : le token ne contient que l'identifiant de l'utilisateur, et le rôle comme le statut actif sont relus en base à chaque requête, si bien qu'une désactivation prend effet immédiatement. Les règles métier vivent dans des services transactionnels, appuyées par des contraintes en base, et un gestionnaire d'exceptions global renvoie des erreurs JSON cohérentes. Les données sont stockées dans MySQL via Spring Data JPA ; les tests d'intégration tournent sur une base H2 en mémoire.",
+
+    decisions: [
+      {
+        title: "Partir du workflow et garder un périmètre réduit",
+        detail:
+          "L'application couvre exactement la boucle que l'équipe répète chaque semaine : planifier, valider, aider, rapporter. Il n'y a pas de couche générique de gestion de projet : chaque écran correspond à une vraie étape de la routine, et l'outil reste rapide à adopter.",
+      },
+      {
+        title: "Affectations officielles et entraide sont deux concepts distincts",
+        detail:
+          "Les aides sont stockées dans leur propre table et ne sont jamais liées aux affectations. Déclarer une aide ne peut donc pas changer qui était officiellement responsable, et le rapport peut montrer les deux côte à côte.",
+      },
+      {
+        title: "Préserver l'historique plutôt que permettre des modifications silencieuses",
+        detail:
+          "Une affectation qui a déjà des jours validés ne peut pas être supprimée, et les agents ne peuvent valider ou annuler que le travail du jour. Les données consultées par le support restent fiables après coup.",
+      },
+      {
+        title: "Des droits vérifiés en base à chaque requête",
+        detail:
+          "Le JWT ne sert qu'à identifier l'utilisateur. Le rôle et le statut actif sont relus en base à chaque requête : désactiver un agent s'applique immédiatement, sans attendre l'expiration de son token.",
+      },
+      {
+        title: "Des règles appliquées dans les services et dans le schéma",
+        detail:
+          "Les services refusent les affectations en double, l'aide déclarée sur une tâche déjà affectée à l'agent, et toute action sur l'affectation de quelqu'un d'autre. Une contrainte d'unicité sur l'agent, la semaine et le type de tâche garantit la règle au niveau de la base.",
+      },
+      {
+        title: "Des rapports pensés pour leur usage réel",
+        detail:
+          "Les rapports quotidien et hebdomadaire se copient en texte brut, au format d'un reporting opérationnel : l'outil s'insère dans la routine de reporting existante au lieu d'en ajouter une nouvelle.",
+      },
+    ],
+
+    testing: [
+      "Six tests d'intégration Spring Boot testent l'API via MockMvc sur une base H2 en mémoire, sans avoir besoin de MySQL.",
+      "Les tests couvrent les échecs d'authentification, la séparation des rôles entre endpoints Support et Agent, les règles d'affectation, la validation limitée à ses propres tâches, l'aide enregistrée à part des affectations et la perte d'accès d'un compte désactivé.",
+      "La validation des requêtes et un gestionnaire d'exceptions global renvoient des erreurs JSON cohérentes pour les saisies invalides, les conflits et les ressources introuvables.",
+    ],
+
+    deployment: [
+      "Le backend et le frontend tournent en local comme deux applications ; en développement, Vite relaie /api vers le serveur Spring Boot.",
+      "L'URL de la base, les identifiants, le secret JWT et le premier compte Support se configurent par variables d'environnement, et l'application refuse de démarrer si le secret JWT est trop court.",
+      "Le schéma MySQL est créé automatiquement au premier démarrage, et un compte Support est créé lorsque la table des utilisateurs est vide.",
+    ],
+
+    security: [
+      "Authentification JWT stateless via le support resource server de Spring Security, avec hachage des mots de passe par BCrypt.",
+      "Règles de rôles déclarées de manière centralisée : les endpoints agent sous /api/me exigent AGENT ; la planification, les rapports et la gestion des utilisateurs exigent SUPPORT.",
+      "Un agent qui demande l'affectation de quelqu'un d'autre reçoit une réponse « introuvable » : les données des autres ne sont pas révélées.",
+      "Le support ne peut pas désactiver son propre compte, ce qui évite de bloquer l'accès à toute l'équipe.",
+    ],
+
+    metrics: [
+      { label: "Rôles utilisateurs", value: "2" },
+      { label: "Tests d'intégration", value: "6" },
+      { label: "Périmètre", value: "Full stack" },
+      { label: "Workflow", value: "Hebdo + quotidien" },
+    ],
+  },
+
   banqueapp: {
     tagline:
       "Une plateforme de crédit full stack qui accompagne un prêt à la consommation de la première demande du client jusqu'au dernier remboursement, avec des espaces dédiés au personnel de la banque et un portail en libre-service pour les clients.",

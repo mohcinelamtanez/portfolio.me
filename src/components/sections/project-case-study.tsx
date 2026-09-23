@@ -124,7 +124,7 @@ export function ProjectCaseStudyBlock({ project }: { project: ProjectCaseStudy }
             <p className="mb-4 max-w-3xl text-sm leading-relaxed text-muted">
               {project.architectureSummary}
             </p>
-            <pre className="overflow-x-auto rounded-md border border-border bg-background p-4 font-mono text-[11px] leading-relaxed text-foreground/80">
+            <pre className="overflow-x-auto rounded-md border border-border bg-background p-4 font-diagram text-[11px] leading-relaxed text-foreground/80">
               <code>{project.architectureDiagram.join("\n")}</code>
             </pre>
           </TabsContent>

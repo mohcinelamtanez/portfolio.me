@@ -70,6 +70,13 @@
   .link-underline {
     @apply underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-accent;
   }
+  /* ASCII diagrams: JetBrains Mono is loaded with the latin subset only, so box-drawing
+     characters (┌ │ ─ ▶) would fall back to another font with a different width.
+     System monospace fonts that ship these glyphs keep every column aligned. */
+  .font-diagram,
+  .font-diagram code {
+    font-family: "Cascadia Mono", Consolas, Menlo, "DejaVu Sans Mono", "Liberation Mono", monospace;
+  }
 }
 
 @layer utilities {
