@@ -139,6 +139,8 @@ export const fr: Dictionary = {
     send: "Envoyer le message",
     success: "Message envoyé — je vous réponds sous un ou deux jours.",
     error: (email: string) => `Une erreur est survenue. Écrivez-moi directement à ${email}.`,
+    rateLimited: (email: string) =>
+      `Vous avez envoyé plusieurs messages en peu de temps. Réessayez dans quelques minutes, ou écrivez-moi à ${email}.`,
   },
 
   footer: {

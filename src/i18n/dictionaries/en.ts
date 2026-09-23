@@ -142,6 +142,8 @@ export const en = {
     send: "Send message",
     success: "Message sent — I'll reply within a day or two.",
     error: (email: string) => `Something went wrong. Email me directly at ${email}.`,
+    rateLimited: (email: string) =>
+      `You've sent several messages in a short time. Please try again in a few minutes, or email me at ${email}.`,
   },
 
   footer: {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Github, Linkedin, Loader2, Mail, Send } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -8,17 +8,26 @@ import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/i18n/language-provider";
 
-type Status = "idle" | "loading" | "success" | "error";
+type Status = "idle" | "loading" | "success" | "error" | "rateLimited";
 
 export function Contact() {
   const { t } = useI18n();
   const [status, setStatus] = useState<Status>("idle");
+  // When the form became visible; the API rejects submissions made too quickly (bots).
+  const shownAt = useRef(0);
+
+  useEffect(() => {
+    shownAt.current = Date.now();
+  }, []);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
     const form = e.currentTarget;
-    const payload = Object.fromEntries(new FormData(form).entries());
+    const payload = {
+      ...Object.fromEntries(new FormData(form).entries()),
+      elapsedMs: Date.now() - shownAt.current,
+    };
 
     try {
       const res = await fetch("/api/contact", {
@@ -26,9 +35,14 @@ export function Contact() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+      if (res.status === 429) {
+        setStatus("rateLimited");
+        return;
+      }
       if (!res.ok) throw new Error("request failed");
       setStatus("success");
       form.reset();
+      shownAt.current = Date.now();
     } catch {
       setStatus("error");
     }
@@ -101,6 +115,14 @@ export function Contact() {
                 </label>
               </div>
 
+              {/* Honeypot: invisible to people and skipped by keyboard, screen readers and autofill. */}
+              <div aria-hidden="true" className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden">
+                <label>
+                  Website
+                  <input name="website" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
+                </label>
+              </div>
+
               <label className="flex flex-col gap-1.5">
                 <span className="font-mono text-2xs uppercase tracking-wide text-muted">{t.contact.message}</span>
                 <textarea
@@ -123,6 +145,11 @@ export function Contact() {
               {status === "success" ? (
                 <p className="font-mono text-2xs text-success" role="status">
                   {t.contact.success}
+                </p>
+              ) : null}
+              {status === "rateLimited" ? (
+                <p className="font-mono text-2xs text-danger" role="alert">
+                  {t.contact.rateLimited(siteConfig.email)}
                 </p>
               ) : null}
               {status === "error" ? (
