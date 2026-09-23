@@ -25,10 +25,9 @@ export const projectsFr: Record<string, ProjectTranslation> = {
   teamtrackingapp: {
     tagline:
       "Un outil léger de suivi des tâches pour une petite équipe opérationnelle : le support planifie qui prend en charge quelle tâche chaque semaine, les agents confirment leur travail chaque jour, et l'entraide entre collègues devient enfin visible.",
-    collaboration: "Prototype personnel",
 
     problem:
-      "Dans une petite équipe opérationnelle, une personne du support répartit chaque semaine des types de tâches récurrents entre les agents, puis doit savoir chaque jour qui a fait sa part et qui est venu aider sur une tâche qui n'était pas la sienne. Quand ce suivi se fait à la main, le support manque de visibilité au quotidien, et l'aide que les agents s'apportent passe facilement inaperçue. J'ai observé ce type de workflow au sein d'une équipe d'opérations B2B chez TELUS International, et j'ai construit cette application seul, comme prototype. Ce n'est pas un outil officiel de TELUS.",
+      "Dans une petite équipe opérationnelle, une personne du support répartit chaque semaine des types de tâches récurrents entre les agents, puis doit savoir chaque jour qui a fait sa part et qui est venu aider sur une tâche qui n'était pas la sienne. Quand ce suivi se fait à la main, le support manque de visibilité au quotidien, et l'aide que les agents s'apportent passe facilement inaperçue. J'ai identifié ce besoin au sein de l'équipe d'opérations B2B dans laquelle je travaille chez TELUS International, et j'ai conçu et développé TeamTrackingApp dans le cadre de mon poste pour le digitaliser (voir Expérience).",
 
     solution:
       "J'ai volontairement gardé un produit simple, calqué sur le vocabulaire de l'équipe : une affectation hebdomadaire signifie « cet agent est responsable de cette tâche cette semaine », une validation quotidienne signifie « fait aujourd'hui », et une aide signifie « j'ai aussi aidé sur cette tâche aujourd'hui ». Le support planifie la semaine et consulte les rapports ; les agents ne voient et ne valident que leurs propres tâches, pour le jour même. Séparer l'aide des affectations officielles permet de reconnaître l'effort supplémentaire sans brouiller qui était responsable.",
@@ -69,7 +68,7 @@ export const projectsFr: Record<string, ProjectTranslation> = {
     ],
 
     outcome:
-      "Un prototype full stack fonctionnel qui transforme une routine hebdomadaire manuelle en un outil partagé : le support dispose d'une vue quotidienne et hebdomadaire du travail de l'équipe, les agents voient leur entraide reconnue, et les règles métier du workflow sont appliquées par le backend et couvertes par des tests d'intégration de l'API.",
+      "Une application full stack fonctionnelle qui transforme une routine hebdomadaire manuelle en un outil partagé : le support dispose d'une vue quotidienne et hebdomadaire du travail de l'équipe, les agents voient leur entraide reconnue, et les règles métier du workflow sont appliquées par le backend et couvertes par des tests d'intégration de l'API.",
 
     architectureSummary:
       "L'application monopage React 19, construite avec Vite, monte un arbre de routes distinct pour chaque rôle et communique avec le backend via un client Axios qui ajoute le JWT. L'API Spring Boot 4 est organisée par fonctionnalité métier (affectations, validations, aides, rapports, utilisateurs), chacune avec son controller, son service, son repository et ses DTOs. L'authentification s'appuie sur le support JWT intégré à Spring Security : le token ne contient que l'identifiant de l'utilisateur, et le rôle comme le statut actif sont relus en base à chaque requête, si bien qu'une désactivation prend effet immédiatement. Les règles métier vivent dans des services transactionnels, appuyées par des contraintes en base, et un gestionnaire d'exceptions global renvoie des erreurs JSON cohérentes. Les données sont stockées dans MySQL via Spring Data JPA ; les tests d'intégration tournent sur une base H2 en mémoire.",

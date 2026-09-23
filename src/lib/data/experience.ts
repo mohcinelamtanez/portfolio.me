@@ -1,58 +1,58 @@
 import type { ExperienceEntry } from "@/types/content";
 
+// English version. The French text lives in src/i18n/content/fr/experience.ts (same ids).
 export const experience: ExperienceEntry[] = [
   {
-  id: "telus",
-  company: "TELUS International",
-  role: "Technical Support Specialist",
-  start: "2025",
-  end: "Present",
-  location: "Casablanca, Morocco",
-  summary:
-    "Supporting B2B telecom customers taught me to start from the user's problem: understanding what they experience, diagnosing the cause, and working with experienced engineers to resolve complex technical cases.",
-  highlights: [
-    "Investigated and resolved technical issues by analyzing customer inquiries, service information, and internal systems while following established troubleshooting procedures.",
-    "Escalated complex or unresolved technical incidents to experienced engineers, providing clear diagnostic information and relevant case context to facilitate efficient resolution.",
-    "Promoted to support and onboard new team members, helping them become familiar with internal tools, technical workflows, troubleshooting procedures, and operational processes.",
-    "Handled B2B customer inquiries in a structured technical environment, combining problem-solving, communication, documentation, and attention to detail.",
-  ],
-  stack: [
-    "Internal Technical Tools",
-    "Troubleshooting",
-    "Incident Management",
-    "B2B Telecom",
-  ],
-},
- {
-  id: "zynerator",
-  company: "Zynerator",
-  role: "Full Stack Developer Intern",
-  start: "Apr 2024",
-  end: "Jun 2024",
-  location: "Morocco",
-  summary:
-    "Contributed to an online platform connecting enterprises with an automated code generation solution, using Spring Boot and React.",
-  highlights: [
-    "Developed and integrated RESTful APIs with Spring Boot to handle service communication and data flow.",
-    "Developed a responsive React frontend focused on providing an intuitive user experience.",
-    "Contributed to the application's architecture and testing strategy across the frontend and backend.",
-  ],
-  stack: ["Java", "Spring Boot", "React", "REST APIs"],
-},
+    id: "telus-excellence",
+    company: "TELUS International",
+    role: "B2B Technical Support & Operational Excellence",
+    start: "2026-06",
+    end: "Present",
+    location: "Casablanca, Morocco",
+    highlights: [
+      "Design and develop TeamTrackingApp, a web application that answers a concrete operational need: digitalising task assignment, centralising its tracking and improving visibility on daily activity.",
+      "Lead the handling of B2B requests and orders, following the different work streams and resolving operational issues efficiently.",
+      "Analyse business processes and identify friction points in order to propose improvements that support better organisation, traceability and operational efficiency.",
+    ],
+  },
   {
-  id: "radeema",
-  company: "RADEEMA",
-  role: "Full Stack Developer Intern",
-  start: "Apr 2023",
-  end: "Jun 2023",
-  location: "Marrakech, Morocco",
-  summary:
-    "Developed a purchase request management application to support supplier coordination and streamline the management of purchase requests.",
-  highlights: [
-    "Developed backend functionality using Spring Boot and implemented RESTful APIs for business logic and data persistence.",
-    "Built and integrated the Angular frontend with the backend APIs to provide a web-based interface for managing purchase requests.",
-    "Participated in Agile/Scrum ceremonies and collaborated with the team to deliver features aligned with sprint objectives and maintain code quality.",
-  ],
-  stack: ["Java", "Spring Boot", "Angular", "REST APIs"],
-},
+    id: "telus-optimisation",
+    company: "TELUS International",
+    role: "B2B Technical Support & Process Optimization",
+    start: "2025-07",
+    end: "2026-05",
+    location: "Casablanca, Morocco",
+    highlights: [
+      "Diagnosed and resolved B2B technical incidents, from the initial analysis through to resolution or escalation to specialised teams.",
+      "Ensured reliable processing and support quality, validating requests and rigorously following up technical cases.",
+      "Supported the teams in Morocco in resolving complex cases and contributed to raising the quality of operations.",
+      "Optimised incident-handling workflows and identified repetitive tasks that could be automated.",
+      "Used Excel and operational data to track activity, indicators and reporting.",
+    ],
+  },
+  {
+    id: "zynerator",
+    company: "ZYNERATOR",
+    role: "Intern – Full Stack Developer Java / React",
+    start: "2024-04",
+    end: "2024-06",
+    location: "Morocco",
+    highlights: [
+      "Developed a full-stack Spring Boot & React.js platform integrating an automatic code generation solution.",
+      "Designed reliable REST APIs to structure data exchanges and data management.",
+      "Developed a responsive frontend and contributed to the architecture, testing and code quality.",
+    ],
+  },
+  {
+    id: "radeema",
+    company: "RADEEMA",
+    role: "Intern – Full Stack Developer Java / Angular",
+    start: "2023-04",
+    end: "2023-06",
+    location: "Morocco",
+    highlights: [
+      "Developed a purchasing and supplier management application with Spring Boot & Angular, integrating REST APIs.",
+      "Contributed to development in an Agile/Scrum environment, ensuring code quality and meeting sprint objectives.",
+    ],
+  },
 ];

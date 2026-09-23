@@ -108,7 +108,7 @@ export const en = {
     eyebrow: "// 03 — experience",
     title: "Experience & education",
     description:
-      "Two full-stack internships, a customer-facing technical role, and a 5th year of computer science studies in progress.",
+      "Two full-stack internships, two successive B2B roles at TELUS International, and a 5th year of computer science studies in progress.",
   },
 
   github: {

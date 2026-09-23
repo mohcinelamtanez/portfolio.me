@@ -6,10 +6,9 @@ export const projects: ProjectCaseStudy[] = [
   name: "TeamTrackingApp",
   tagline:
     "A lightweight task tracker for a small operational team: support plans who owns which task each week, agents confirm their work every day, and extra help between colleagues is finally visible.",
-  collaboration: "Personal prototype",
 
   problem:
-    "In a small operational team, a support person assigns recurring task types to agents every week, then needs to know each day who has done their part and who stepped in to help on a task that was not theirs. When this is tracked by hand, the support side has little day-to-day visibility, and the extra help agents give each other easily goes unrecorded. I observed this kind of workflow while working in a B2B operations team at TELUS International, and built this app on my own as a prototype. It is not an official TELUS tool.",
+    "In a small operational team, a support person assigns recurring task types to agents every week, then needs to know each day who has done their part and who stepped in to help on a task that was not theirs. When this is tracked by hand, the support side has little day-to-day visibility, and the extra help agents give each other easily goes unrecorded. I identified this need in the B2B operations team I work in at TELUS International, and designed and developed TeamTrackingApp in my role there to digitalise it (see Experience).",
 
   solution:
     "I kept the product deliberately small and modelled it on the team's own vocabulary: a weekly assignment means \"this agent owns this task this week\", a daily completion means \"done today\", and a help record means \"I also helped with this today\". Support plans the week and reads the reports; agents only see and tick off their own tasks, for today. Keeping help records separate from official assignments means recognising extra effort never blurs who was responsible.",
@@ -50,7 +49,7 @@ export const projects: ProjectCaseStudy[] = [
   ],
 
   outcome:
-    "A working full-stack prototype that turns a manual weekly routine into one shared tool: support gets a daily and weekly view of the team's work, agents get recognition for the help they give, and the business rules of the workflow are enforced by the backend and covered by API integration tests.",
+    "A working full-stack application that turns a manual weekly routine into one shared tool: support gets a daily and weekly view of the team's work, agents get recognition for the help they give, and the business rules of the workflow are enforced by the backend and covered by API integration tests.",
 
   architectureSummary:
     "A React 19 single-page application built with Vite mounts a separate route tree for each role and talks to the backend through an Axios client that attaches the JWT. The Spring Boot 4 API is organised by business feature (assignments, completions, help, reports, users), each with its own controller, service, repository and DTOs. Authentication uses Spring Security's built-in JWT support: the token only carries the user id, and the role and active flag are read from the database on every request, so deactivating an account takes effect immediately. Business rules live in transactional services, backed by database constraints, and a global exception handler returns consistent JSON errors. Data is stored in MySQL through Spring Data JPA; integration tests run against an in-memory H2 database.",

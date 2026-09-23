@@ -55,7 +55,9 @@ export function Experience() {
                   </span>
                 </div>
 
-                <p className="mb-4 max-w-2xl text-sm leading-relaxed text-muted">{entry.summary}</p>
+                {entry.summary ? (
+                  <p className="mb-4 max-w-2xl text-sm leading-relaxed text-muted">{entry.summary}</p>
+                ) : null}
 
                 <ul className="mb-4 flex flex-col gap-2">
                   {entry.highlights.map((h) => (
@@ -66,11 +68,13 @@ export function Experience() {
                   ))}
                 </ul>
 
-                <div className="flex flex-wrap gap-1.5">
-                  {entry.stack.map((s) => (
-                    <Badge key={s}>{s}</Badge>
-                  ))}
-                </div>
+                {entry.stack?.length ? (
+                  <div className="flex flex-wrap gap-1.5">
+                    {entry.stack.map((s) => (
+                      <Badge key={s}>{s}</Badge>
+                    ))}
+                  </div>
+                ) : null}
               </li>
             </Reveal>
           ))}

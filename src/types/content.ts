@@ -5,9 +5,9 @@ export interface ExperienceEntry {
   start: string;
   end: string;
   location: string;
-  summary: string;
+  summary?: string;
   highlights: string[];
-  stack: string[];
+  stack?: string[];
 }
 
 export interface TechCategory {

@@ -7,50 +7,53 @@ export type ExperienceTranslation = Pick<
 >;
 
 export const experienceFr: Record<string, ExperienceTranslation> = {
-  telus: {
-    role: "Spécialiste support technique",
-    start: "2025",
-    end: "Aujourd'hui",
+  "telus-excellence": {
+    role: "Support Technique B2B & Excellence Opérationnelle",
+    start: "2026-06",
+    end: "Présent",
     location: "Casablanca, Maroc",
-    summary:
-      "Accompagner des clients B2B dans les télécoms m'a appris à partir du problème de l'utilisateur : comprendre ce qu'il vit, diagnostiquer la cause et travailler avec des ingénieurs expérimentés pour résoudre les cas techniques complexes.",
     highlights: [
-      "Analyse et résolution d'incidents techniques à partir des demandes clients, des informations de service et des systèmes internes, dans le respect des procédures de diagnostic établies.",
-      "Escalade des incidents complexes ou non résolus vers des ingénieurs expérimentés, avec des éléments de diagnostic clairs et le contexte du dossier pour faciliter une résolution rapide.",
-      "Promu pour accompagner et intégrer les nouveaux membres de l'équipe, en les familiarisant avec les outils internes, les workflows techniques, les procédures de diagnostic et les processus opérationnels.",
-      "Traitement de demandes clients B2B dans un environnement technique structuré, alliant résolution de problèmes, communication, documentation et rigueur.",
+      "Concevoir et développer TeamTrackingApp, une application web répondant à un besoin opérationnel concret, afin de digitaliser l’affectation des tâches, centraliser leur suivi et améliorer la visibilité sur l’activité quotidienne.",
+      "Piloter le traitement des demandes et commandes B2B, en assurant le suivi des différents flux de travail et la résolution efficace des problématiques opérationnelles.",
+      "Analyser les processus métier et identifier les points de friction, afin de proposer des améliorations favorisant une meilleure organisation, traçabilité et efficacité opérationnelle.",
     ],
-    stack: ["Outils techniques internes", "Diagnostic", "Gestion des incidents", "Télécoms B2B"],
+  },
+
+  "telus-optimisation": {
+    role: "Support Technique B2B & Optimisation des Processus",
+    start: "2025-07",
+    end: "2026-05",
+    location: "Casablanca, Maroc",
+    highlights: [
+      "Diagnostiquer et résoudre les incidents techniques B2B, de l’analyse initiale jusqu’à la résolution ou l’escalade vers les équipes spécialisées.",
+      "Garantir la fiabilité des traitements et la qualité du support, avec validation des demandes et suivi rigoureux des dossiers techniques.",
+      "Accompagner les équipes au Maroc dans la résolution des cas complexes et contribuer à la montée en qualité des opérations.",
+      "Optimiser les workflows de traitement des incidents et identifier les tâches répétitives pouvant être automatisées.",
+      "Exploiter Excel et les données opérationnelles pour assurer le suivi des activités, des indicateurs et du reporting.",
+    ],
   },
 
   zynerator: {
-    role: "Stagiaire développeur full stack",
-    start: "avr. 2024",
-    end: "juin 2024",
+    role: "Stagiaire - Développeur Full Stack Java / React",
+    start: "2024-04",
+    end: "2024-06",
     location: "Maroc",
-    summary:
-      "Contribution à une plateforme en ligne qui met en relation les entreprises avec une solution de génération automatique de code, développée avec Spring Boot et React.",
     highlights: [
-      "Développement et intégration d'APIs REST avec Spring Boot pour gérer la communication entre services et les flux de données.",
-      "Développement d'un frontend React responsive, centré sur une expérience utilisateur intuitive.",
-      "Contribution à l'architecture de l'application et à la stratégie de test, côté frontend comme côté backend.",
+      "Développer une plateforme Full Stack Spring Boot & React.js intégrant une solution de génération automatique de code.",
+      "Concevoir des API REST fiables pour structurer les échanges et la gestion des données.",
+      "Développer un frontend responsive et contribuer à l’architecture, aux tests et à la qualité du code.",
     ],
-    stack: ["Java", "Spring Boot", "React", "APIs REST"],
   },
 
   radeema: {
-    role: "Stagiaire développeur full stack",
-    start: "avr. 2023",
-    end: "juin 2023",
-    location: "Marrakech, Maroc",
-    summary:
-      "Développement d'une application de gestion des demandes d'achat pour faciliter la coordination avec les fournisseurs et simplifier le traitement des demandes.",
+    role: "Stagiaire - Développeur Full Stack Java / Angular",
+    start: "2023-04",
+    end: "2023-06",
+    location: "Maroc",
     highlights: [
-      "Développement des fonctionnalités backend avec Spring Boot et mise en place d'APIs REST pour la logique métier et la persistance des données.",
-      "Réalisation et intégration du frontend Angular avec les APIs backend, pour offrir une interface web de gestion des demandes d'achat.",
-      "Participation aux cérémonies Agile/Scrum et collaboration avec l'équipe pour livrer des fonctionnalités alignées sur les objectifs de sprint tout en maintenant la qualité du code.",
+      "Développer une application de gestion des achats et fournisseurs avec Spring Boot & Angular, intégrant des API REST.",
+      "Contribuer au développement en environnement Agile/Scrum, en garantissant qualité du code et respect des objectifs de sprint.",
     ],
-    stack: ["Java", "Spring Boot", "Angular", "APIs REST"],
   },
 };
 

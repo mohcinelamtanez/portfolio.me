@@ -105,7 +105,7 @@ export const fr: Dictionary = {
     eyebrow: "// 03 — parcours",
     title: "Expérience & formation",
     description:
-      "Deux stages full stack, un poste technique en relation client et une 5e année d'études en informatique en cours.",
+      "Deux stages full stack, deux postes B2B successifs chez TELUS International et une 5e année d'études en informatique en cours.",
   },
 
   github: {
