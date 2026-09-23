@@ -3,6 +3,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { siteConfig } from "@/config/site";
+import type { Dictionary } from "@/i18n/dictionaries/en";
+import { useI18n } from "@/i18n/language-provider";
 
 interface TerminalProps {
   open: boolean;
@@ -36,34 +38,34 @@ const COMMANDS = [
   "clear",
 ];
 
-function runCommand(raw: string, close: () => void): string[] {
+function runCommand(raw: string, close: () => void, t: Dictionary): string[] {
   const cmd = raw.trim().toLowerCase();
 
   if (cmd === "") return [];
 
   if (cmd === "help") {
     return [
-      "Available commands:",
+      t.terminal.available,
       ...COMMANDS.filter((c) => c !== "help").map((c) => `  ${c}`),
     ];
   }
 
   if (cmd === "whoami") {
     return [
-      `${siteConfig.name} — ${siteConfig.role} · ${siteConfig.roleDetail}`,
-      siteConfig.tagline,
-      siteConfig.location,
+      `${siteConfig.name} — ${t.hero.role} · ${t.hero.roleDetail}`,
+      t.hero.tagline,
+      t.hero.location,
     ];
   }
 
   if (cmd === "resume") {
     window.open(siteConfig.resumeUrl, "_blank");
-    return ["Opening résumé…"];
+    return [t.terminal.openingResume];
   }
 
   if (cmd === "github") {
     window.open(siteConfig.social.github, "_blank");
-    return [`Opening ${siteConfig.social.github}…`];
+    return [t.terminal.opening(siteConfig.social.github)];
   }
 
   if (cmd === "clear") {
@@ -75,19 +77,23 @@ function runCommand(raw: string, close: () => void): string[] {
     if (target) {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
       close();
-      return [`Navigating to #${cmd}…`];
+      return [t.terminal.navigating(cmd)];
     }
   }
 
-  return [`command not found: ${cmd} — type "help" for a list of commands`];
+  return [t.terminal.notFound(cmd)];
 }
 
 export function Terminal({ open, onOpenChange }: TerminalProps) {
+  const { t } = useI18n();
   const [input, setInput] = useState("");
-  const [history, setHistory] = useState<HistoryLine[]>([
-    { type: "output", text: `${siteConfig.name.toLowerCase().replace(" ", "-")} — interactive shell` },
-    { type: "output", text: 'type "help" to see available commands' },
-  ]);
+  // null = untouched session: the intro follows the active language until
+  // the first command is run or the history is cleared.
+  const [history, setHistory] = useState<HistoryLine[] | null>(null);
+  const lines: HistoryLine[] = history ?? [
+    { type: "output", text: t.terminal.intro(siteConfig.name.toLowerCase().replace(" ", "-")) },
+    { type: "output", text: t.terminal.helpHint },
+  ];
   const [commandLog, setCommandLog] = useState<string[]>([]);
   const [logIndex, setLogIndex] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -99,17 +105,17 @@ export function Terminal({ open, onOpenChange }: TerminalProps) {
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
-  }, [history]);
+  }, [lines.length]);
 
   const submit = (override?: string) => {
     const value = override ?? input;
-    const output = runCommand(value, () => onOpenChange(false));
+    const output = runCommand(value, () => onOpenChange(false), t);
 
     if (output[0] === "__CLEAR__") {
       setHistory([]);
     } else {
-      setHistory((h) => [
-        ...h,
+      setHistory([
+        ...lines,
         { type: "input", text: value },
         ...output.map((line): HistoryLine => ({ type: "output", text: line })),
       ]);
@@ -155,10 +161,8 @@ export function Terminal({ open, onOpenChange }: TerminalProps) {
           className="fixed left-1/2 top-24 z-[91] w-[92vw] max-w-xl -translate-x-1/2 overflow-hidden rounded-lg border border-border bg-surface shadow-2xl focus:outline-none"
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
-          <Dialog.Title className="sr-only">Command terminal</Dialog.Title>
-          <Dialog.Description className="sr-only">
-            Type a command to navigate the site, e.g. &quot;projects&quot; or &quot;contact&quot;.
-          </Dialog.Description>
+          <Dialog.Title className="sr-only">{t.terminal.title}</Dialog.Title>
+          <Dialog.Description className="sr-only">{t.terminal.description}</Dialog.Description>
 
           <div className="flex items-center gap-1.5 border-b border-border px-4 py-2.5">
             <span className="h-2.5 w-2.5 rounded-full bg-danger/70" />
@@ -174,7 +178,7 @@ export function Terminal({ open, onOpenChange }: TerminalProps) {
             className="h-64 overflow-y-auto px-4 py-3 font-mono text-[13px] leading-relaxed"
             onClick={() => inputRef.current?.focus()}
           >
-            {history.map((line, i) => (
+            {lines.map((line, i) => (
               <div
                 key={i}
                 className={line.type === "input" ? "text-foreground" : "text-muted"}
@@ -198,9 +202,9 @@ export function Terminal({ open, onOpenChange }: TerminalProps) {
                 onKeyDown={onKeyDown}
                 spellCheck={false}
                 autoComplete="off"
-                aria-label="Terminal command input"
+                aria-label={t.terminal.inputLabel}
                 className="flex-1 bg-transparent text-foreground outline-none placeholder:text-muted/60"
-                placeholder="type a command…"
+                placeholder={t.terminal.placeholder}
               />
             </div>
           </div>

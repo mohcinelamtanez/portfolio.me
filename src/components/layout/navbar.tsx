@@ -6,16 +6,14 @@ import { Github, Linkedin, Menu, X, Terminal as TerminalIcon } from "lucide-reac
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { useI18n } from "@/i18n/language-provider";
 
-const navItems = [
-  { href: "#about", label: "About" },
-  { href: "#projects", label: "Projects" },
-  { href: "#skills", label: "Skills" },
-  { href: "#experience", label: "Experience" },
-  { href: "#contact", label: "Contact" },
-];
+const navSections = ["about", "projects", "skills", "experience", "contact"] as const;
 
 export function Navbar({ onOpenTerminal }: { onOpenTerminal: () => void }) {
+  const { t } = useI18n();
+  const navItems = navSections.map((id) => ({ href: `#${id}`, label: t.nav[id] }));
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -33,16 +31,16 @@ export function Navbar({ onOpenTerminal }: { onOpenTerminal: () => void }) {
         scrolled ? "border-b border-border bg-background/85 backdrop-blur-md" : "border-b border-transparent"
       )}
     >
-      <nav className="container-narrow flex h-16 items-center justify-between" aria-label="Primary">
+      <nav className="container-narrow flex h-16 items-center justify-between gap-4" aria-label={t.nav.primary}>
         <Link
           href="#top"
           className="font-mono text-sm font-medium tracking-tight text-foreground"
-          aria-label={`${siteConfig.name} — home`}
+          aria-label={t.nav.home}
         >
           lm<span className="text-accent">.</span>dev
         </Link>
 
-        <ul className="hidden items-center gap-7 md:flex">
+        <ul className="hidden items-center gap-5 md:flex lg:gap-7">
           {navItems.map((item) => (
             <li key={item.href}>
               <a
@@ -56,36 +54,40 @@ export function Navbar({ onOpenTerminal }: { onOpenTerminal: () => void }) {
         </ul>
 
         <div className="hidden items-center gap-2 md:flex">
+          <LanguageSwitcher />
           <Button
             variant="outline"
             size="sm"
             className="gap-2 font-mono"
             onClick={onOpenTerminal}
-            aria-label="Open command palette"
+            aria-label={t.nav.openTerminal}
           >
             <TerminalIcon className="h-3.5 w-3.5" />
             <span>⌘L</span>
           </Button>
-          <Button variant="ghost" size="icon" asChild aria-label="GitHub profile">
+          <Button variant="ghost" size="icon" asChild aria-label={t.nav.githubProfile}>
             <a href={siteConfig.social.github} target="_blank" rel="noreferrer noopener">
               <Github className="h-4 w-4" />
             </a>
           </Button>
-          <Button variant="ghost" size="icon" asChild aria-label="LinkedIn profile">
+          <Button variant="ghost" size="icon" asChild aria-label={t.nav.linkedinProfile}>
             <a href={siteConfig.social.linkedin} target="_blank" rel="noreferrer noopener">
               <Linkedin className="h-4 w-4" />
             </a>
           </Button>
         </div>
 
-        <button
-          className="p-2 text-foreground md:hidden"
-          onClick={() => setMobileOpen((v) => !v)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileOpen}
-        >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <LanguageSwitcher />
+          <button
+            className="p-2 text-foreground"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label={mobileOpen ? t.nav.closeMenu : t.nav.openMenu}
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </nav>
 
       {mobileOpen ? (

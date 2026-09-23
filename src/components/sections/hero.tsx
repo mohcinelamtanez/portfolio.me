@@ -1,11 +1,16 @@
+"use client";
+
 import { ArrowRight, Github, Linkedin, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/i18n/language-provider";
 
 export function Hero() {
+  const { t } = useI18n();
+
   return (
     <section id="top" className="relative overflow-hidden border-b border-border">
       <div
@@ -18,32 +23,32 @@ export function Hero() {
           <div className="flex flex-col gap-4">
             <Badge variant="accent" className="w-fit gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-success" />
-              {siteConfig.availability}
+              {t.hero.availability}
             </Badge>
             <p className="font-mono text-sm text-muted">
-              <span className="text-foreground">{siteConfig.role}</span>
+              <span className="text-foreground">{t.hero.role}</span>
               <span className="text-accent"> · </span>
-              {siteConfig.roleDetail}
+              {t.hero.roleDetail}
             </p>
           </div>
 
           <h1 className="max-w-3xl text-balance text-4xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-6xl">
-            {siteConfig.tagline}
+            {t.hero.tagline}
           </h1>
 
           <p className="max-w-xl text-balance text-[15px] leading-relaxed text-muted sm:text-base">
-            {siteConfig.description}
+            {t.hero.description}
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <Button asChild size="lg" className="gap-2">
               <a href="#projects">
-                See what I&apos;ve built <ArrowRight className="h-4 w-4" />
+                {t.hero.ctaPrimary} <ArrowRight className="h-4 w-4" />
               </a>
             </Button>
             <Button asChild variant="outline" size="lg">
               <a href={siteConfig.resumeUrl} target="_blank" rel="noreferrer">
-                Download résumé
+                {t.hero.ctaResume}
               </a>
             </Button>
           </div>
@@ -51,8 +56,8 @@ export function Hero() {
           <dl className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-6 font-mono text-2xs text-muted">
             <div className="flex items-center gap-1.5">
               <MapPin className="h-3.5 w-3.5" />
-              <dt className="sr-only">Location</dt>
-              <dd>{siteConfig.location}</dd>
+              <dt className="sr-only">{t.hero.locationLabel}</dt>
+              <dd>{t.hero.location}</dd>
             </div>
             <Link
               href={siteConfig.social.github}
@@ -68,7 +73,7 @@ export function Hero() {
               className="flex items-center gap-1.5 hover:text-foreground"
             >
               <Linkedin className="h-3.5 w-3.5" />
-              <span>linkedin</span>
+              <span>{t.hero.linkedin}</span>
             </Link>
           </dl>
         </div>

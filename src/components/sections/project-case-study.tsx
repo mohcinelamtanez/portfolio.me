@@ -5,8 +5,11 @@ import type { ProjectCaseStudy } from "@/types/content";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useI18n } from "@/i18n/language-provider";
 
 export function ProjectCaseStudyBlock({ project }: { project: ProjectCaseStudy }) {
+  const { t } = useI18n();
+
   return (
     <article id={project.slug} className="card-surface overflow-hidden scroll-mt-24">
       <div className="flex flex-col gap-6 border-b border-border p-6 sm:p-8">
@@ -21,20 +24,20 @@ export function ProjectCaseStudyBlock({ project }: { project: ProjectCaseStudy }
           <div className="flex shrink-0 gap-2">
             <Button asChild variant="outline" size="sm" className="gap-1.5">
               <a href={project.github} target="_blank" rel="noreferrer">
-                <Github className="h-3.5 w-3.5" /> Source
+                <Github className="h-3.5 w-3.5" /> {t.projects.source}
               </a>
             </Button>
             {project.apiDocsUrl ? (
               <Button asChild variant="outline" size="sm" className="gap-1.5">
                 <a href={project.apiDocsUrl} target="_blank" rel="noreferrer">
-                  <FileText className="h-3.5 w-3.5" /> API docs
+                  <FileText className="h-3.5 w-3.5" /> {t.projects.apiDocs}
                 </a>
               </Button>
             ) : null}
             {project.liveUrl ? (
               <Button asChild variant="outline" size="sm" className="gap-1.5">
                 <a href={project.liveUrl} target="_blank" rel="noreferrer">
-                  <ExternalLink className="h-3.5 w-3.5" /> Live
+                  <ExternalLink className="h-3.5 w-3.5" /> {t.projects.live}
                 </a>
               </Button>
             ) : null}
@@ -44,13 +47,13 @@ export function ProjectCaseStudyBlock({ project }: { project: ProjectCaseStudy }
         <div className="grid gap-6 md:grid-cols-2">
           <div>
             <h4 className="mb-2 font-mono text-2xs uppercase tracking-wide text-muted">
-              01 · The need
+              {t.projects.need}
             </h4>
             <p className="text-sm leading-relaxed text-foreground/90">{project.problem}</p>
           </div>
           <div>
             <h4 className="mb-2 font-mono text-2xs uppercase tracking-wide text-muted">
-              02 · The solution
+              {t.projects.solution}
             </h4>
             <p className="text-sm leading-relaxed text-foreground/90">{project.solution}</p>
           </div>
@@ -58,7 +61,7 @@ export function ProjectCaseStudyBlock({ project }: { project: ProjectCaseStudy }
 
         <div>
           <h4 className="mb-3 font-mono text-2xs uppercase tracking-wide text-muted">
-            03 · What was built
+            {t.projects.built}
           </h4>
           <div className="grid gap-3 sm:grid-cols-2">
             {project.features.map((group) => (
@@ -78,7 +81,7 @@ export function ProjectCaseStudyBlock({ project }: { project: ProjectCaseStudy }
         </div>
 
         <h4 className="-mb-3 font-mono text-2xs uppercase tracking-wide text-muted">
-          04 · Built with
+          {t.projects.builtWith}
         </h4>
         <div className="flex flex-wrap gap-1.5">
           {project.stack.map((s) => (
@@ -90,7 +93,7 @@ export function ProjectCaseStudyBlock({ project }: { project: ProjectCaseStudy }
 
         <div className="border-l-2 border-accent pl-4">
           <h4 className="mb-1.5 font-mono text-2xs uppercase tracking-wide text-muted">
-            05 · The result
+            {t.projects.result}
           </h4>
           <p className="max-w-3xl text-sm leading-relaxed text-foreground">{project.outcome}</p>
         </div>
@@ -107,14 +110,14 @@ export function ProjectCaseStudyBlock({ project }: { project: ProjectCaseStudy }
 
       <div className="p-6 sm:p-8">
         <h4 className="mb-4 font-mono text-2xs uppercase tracking-wide text-muted">
-          Engineering details
+          {t.projects.engineeringDetails}
         </h4>
         <Tabs defaultValue="architecture">
           <TabsList>
-            <TabsTrigger value="architecture">Architecture</TabsTrigger>
-            <TabsTrigger value="decisions">Decisions</TabsTrigger>
-            <TabsTrigger value="testing">Testing &amp; Deploy</TabsTrigger>
-            <TabsTrigger value="security">Security</TabsTrigger>
+            <TabsTrigger value="architecture">{t.projects.tabs.architecture}</TabsTrigger>
+            <TabsTrigger value="decisions">{t.projects.tabs.decisions}</TabsTrigger>
+            <TabsTrigger value="testing">{t.projects.tabs.testing}</TabsTrigger>
+            <TabsTrigger value="security">{t.projects.tabs.security}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="architecture">
@@ -141,26 +144,26 @@ export function ProjectCaseStudyBlock({ project }: { project: ProjectCaseStudy }
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
                 <h4 className="mb-3 font-mono text-2xs uppercase tracking-wide text-muted">
-                  Testing strategy
+                  {t.projects.testingStrategy}
                 </h4>
                 <ul className="flex flex-col gap-2.5">
-                  {project.testing.map((t) => (
-                    <li key={t} className="flex gap-2 text-sm leading-relaxed text-foreground/90">
+                  {project.testing.map((item) => (
+                    <li key={item} className="flex gap-2 text-sm leading-relaxed text-foreground/90">
                       <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-success" />
-                      <span>{t}</span>
+                      <span>{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
               <div>
                 <h4 className="mb-3 font-mono text-2xs uppercase tracking-wide text-muted">
-                  Deployment
+                  {t.projects.deployment}
                 </h4>
                 <ul className="flex flex-col gap-2.5">
-                  {project.deployment.map((t) => (
-                    <li key={t} className="flex gap-2 text-sm leading-relaxed text-foreground/90">
+                  {project.deployment.map((item) => (
+                    <li key={item} className="flex gap-2 text-sm leading-relaxed text-foreground/90">
                       <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
-                      <span>{t}</span>
+                      <span>{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -170,10 +173,10 @@ export function ProjectCaseStudyBlock({ project }: { project: ProjectCaseStudy }
 
           <TabsContent value="security">
             <ul className="flex flex-col gap-2.5">
-              {project.security.map((t) => (
-                <li key={t} className="flex gap-2 text-sm leading-relaxed text-foreground/90">
+              {project.security.map((item) => (
+                <li key={item} className="flex gap-2 text-sm leading-relaxed text-foreground/90">
                   <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-warning" />
-                  <span>{t}</span>
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>

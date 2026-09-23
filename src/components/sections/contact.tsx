@@ -6,10 +6,12 @@ import { siteConfig } from "@/config/site";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/i18n/language-provider";
 
 type Status = "idle" | "loading" | "success" | "error";
 
 export function Contact() {
+  const { t } = useI18n();
   const [status, setStatus] = useState<Status>("idle");
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -37,9 +39,9 @@ export function Contact() {
       <div className="container-narrow py-24">
         <Reveal>
           <SectionHeading
-            eyebrow="// 05 — contact"
-            title="Let's talk"
-            description="Open to junior Product Engineer and Software Engineer roles, internships, and projects where understanding the problem matters as much as the code. I read everything that comes through here."
+            eyebrow={t.contact.eyebrow}
+            title={t.contact.title}
+            description={t.contact.description}
           />
         </Reveal>
 
@@ -71,7 +73,7 @@ export function Contact() {
                 className="card-surface flex items-center gap-3 p-4 transition-colors hover:border-accent/40"
               >
                 <Linkedin className="h-4 w-4 text-accent" />
-                <span className="font-mono text-sm text-foreground">LinkedIn profile</span>
+                <span className="font-mono text-sm text-foreground">{t.contact.linkedinProfile}</span>
               </a>
             </div>
           </Reveal>
@@ -80,7 +82,7 @@ export function Contact() {
             <form onSubmit={onSubmit} className="card-surface flex flex-col gap-4 p-6">
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="flex flex-col gap-1.5">
-                  <span className="font-mono text-2xs uppercase tracking-wide text-muted">Name</span>
+                  <span className="font-mono text-2xs uppercase tracking-wide text-muted">{t.contact.name}</span>
                   <input
                     required
                     name="name"
@@ -89,7 +91,7 @@ export function Contact() {
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="font-mono text-2xs uppercase tracking-wide text-muted">Email</span>
+                  <span className="font-mono text-2xs uppercase tracking-wide text-muted">{t.contact.email}</span>
                   <input
                     required
                     name="email"
@@ -100,7 +102,7 @@ export function Contact() {
               </div>
 
               <label className="flex flex-col gap-1.5">
-                <span className="font-mono text-2xs uppercase tracking-wide text-muted">Message</span>
+                <span className="font-mono text-2xs uppercase tracking-wide text-muted">{t.contact.message}</span>
                 <textarea
                   required
                   name="message"
@@ -115,17 +117,17 @@ export function Contact() {
                 ) : (
                   <Send className="h-4 w-4" />
                 )}
-                Send message
+                {t.contact.send}
               </Button>
 
               {status === "success" ? (
                 <p className="font-mono text-2xs text-success" role="status">
-                  Message sent — I&apos;ll reply within a day or two.
+                  {t.contact.success}
                 </p>
               ) : null}
               {status === "error" ? (
                 <p className="font-mono text-2xs text-danger" role="alert">
-                  Something went wrong. Email me directly at {siteConfig.email}.
+                  {t.contact.error(siteConfig.email)}
                 </p>
               ) : null}
             </form>

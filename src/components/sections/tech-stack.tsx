@@ -1,21 +1,25 @@
-import { techStack } from "@/lib/data/tech-stack";
+"use client";
+
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
+import { useI18n } from "@/i18n/language-provider";
 
 export function TechStack() {
+  const { t, content } = useI18n();
+
   return (
     <section id="skills" className="hairline">
       <div className="container-narrow py-24">
         <Reveal>
           <SectionHeading
-            eyebrow="// 02 — skills"
-            title="What I bring to a product"
-            description="Grouped by capability, not ranked by proficiency. Everything listed is backed by a project or a role on this page, and what I'm still learning is marked as such."
+            eyebrow={t.skills.eyebrow}
+            title={t.skills.title}
+            description={t.skills.description}
           />
         </Reveal>
 
         <div className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-          {techStack.map((group, i) => (
+          {content.techStack.map((group, i) => (
             <Reveal key={group.category} delay={i * 0.05}>
               <div className="h-full bg-surface p-6">
                 <h3 className="mb-4 font-mono text-2xs uppercase tracking-widest text-muted">

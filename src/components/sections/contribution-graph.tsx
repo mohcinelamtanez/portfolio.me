@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { siteConfig } from "@/config/site";
+import { useI18n } from "@/i18n/language-provider";
 
 interface ContributionDay {
   date: string;
@@ -32,6 +33,7 @@ function generateSyntheticYear(): ContributionDay[] {
 }
 
 export function ContributionGraph() {
+  const { t } = useI18n();
   const [days, setDays] = useState<ContributionDay[] | null>(null);
 
   useEffect(() => {
@@ -66,7 +68,7 @@ export function ContributionGraph() {
     <div className="card-surface p-6">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="font-mono text-2xs uppercase tracking-wide text-muted">
-          Contribution activity
+          {t.github.contributions.title}
         </h3>
         <a
           href={siteConfig.social.github}
@@ -74,20 +76,20 @@ export function ContributionGraph() {
           rel="noreferrer"
           className="font-mono text-2xs text-accent hover:underline"
         >
-          view profile →
+          {t.github.contributions.viewProfile}
         </a>
       </div>
 
       {!days ? (
         <div className="h-[104px] animate-pulse rounded-md bg-surface-hover" aria-hidden="true" />
       ) : (
-        <div className="flex gap-1 overflow-x-auto pb-1" role="img" aria-label="GitHub contribution graph for the past year">
+        <div className="flex gap-1 overflow-x-auto pb-1" role="img" aria-label={t.github.contributions.graphLabel}>
           {weeks.map((week, wi) => (
             <div key={wi} className="flex flex-col gap-1">
               {week.map((day) => (
                 <span
                   key={day.date}
-                  title={`${day.date}: ${day.count} contributions`}
+                  title={t.github.contributions.day(day.date, day.count)}
                   className={`h-[11px] w-[11px] rounded-[2px] ${LEVEL_COLORS[day.level]}`}
                 />
               ))}
@@ -97,11 +99,11 @@ export function ContributionGraph() {
       )}
 
       <div className="mt-3 flex items-center justify-end gap-1.5 font-mono text-2xs text-muted">
-        <span>Less</span>
+        <span>{t.github.contributions.less}</span>
         {[0, 1, 2, 3, 4].map((l) => (
           <span key={l} className={`h-[11px] w-[11px] rounded-[2px] ${LEVEL_COLORS[l]}`} />
         ))}
-        <span>More</span>
+        <span>{t.github.contributions.more}</span>
       </div>
     </div>
   );

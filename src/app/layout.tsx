@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { siteConfig } from "@/config/site";
+import { LanguageProvider } from "@/i18n/language-provider";
+import { SkipLink } from "@/components/layout/skip-link";
 import "./globals.css";
 
 // Using the Inter / JetBrains Mono pairing for zero-config portability.
@@ -110,13 +112,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StructuredData />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-foreground"
-        >
-          Skip to content
-        </a>
-        {children}
+        <LanguageProvider>
+          <SkipLink />
+          {children}
+        </LanguageProvider>
         <Analytics />
       </body>
     </html>

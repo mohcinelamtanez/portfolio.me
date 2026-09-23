@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useI18n } from "@/i18n/language-provider";
 
 export function LoadingScreen() {
+  const { t } = useI18n();
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -24,7 +26,7 @@ export function LoadingScreen() {
         >
           <div className="flex items-center gap-2 font-mono text-sm text-muted">
             <span className="text-accent">$</span>
-            <span>booting portfolio</span>
+            <span>{t.common.booting}</span>
             <span className="inline-block w-2 animate-blink text-accent">_</span>
           </div>
         </motion.div>

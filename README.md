@@ -54,6 +54,8 @@ component code for a standard update:
 | GitHub username (for live data) | `siteConfig.social.githubUsername`       |
 | Resume file                     | `public/Mohcine_Lamtanez_CV.pdf` (`siteConfig.resumeUrl`) |
 | Favicon / OG image              | replace files in `public/`               |
+| UI copy (EN / FR)                | `src/i18n/dictionaries/{en,fr}.ts`       |
+| French content (projects…)      | `src/i18n/content/fr/`                   |
 
 Each project in `projects.ts` follows the `ProjectCaseStudy` type
 (`src/types/content.ts`) — problem statement, architecture summary + ASCII
