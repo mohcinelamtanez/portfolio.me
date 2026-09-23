@@ -17,9 +17,10 @@ const GITHUB_API = "https://api.github.com";
 const username = siteConfig.social.githubUsername;
 
 /**
- * Fetches the user's most-starred public repositories to stand in for
- * "pinned" repos (the GitHub GraphQL API is required for true pins and
- * needs an authenticated token — this REST fallback works with zero config).
+ * Returns the repositories listed in `siteConfig.pinnedRepos`, in that order,
+ * topped up with the most-starred remaining repos (the GitHub GraphQL API is
+ * required for true pins and needs an authenticated token — this REST
+ * approach works with zero config).
  * Results are cached at the Next.js data-cache layer and revalidated hourly.
  */
 export async function getPinnedRepos(limit = 6): Promise<GithubRepo[]> {
@@ -36,10 +37,15 @@ export async function getPinnedRepos(limit = 6): Promise<GithubRepo[]> {
 
     const repos: GithubRepo[] = await res.json();
 
-    return repos
-      .filter((repo) => !repo.name.startsWith(username))
-      .sort((a, b) => b.stargazers_count - a.stargazers_count)
-      .slice(0, limit);
+    const pinnedNames: readonly string[] = siteConfig.pinnedRepos;
+    const pinned = pinnedNames
+      .map((name) => repos.find((repo) => repo.name === name))
+      .filter((repo): repo is GithubRepo => repo !== undefined);
+    const others = repos
+      .filter((repo) => !repo.name.startsWith(username) && !pinnedNames.includes(repo.name))
+      .sort((a, b) => b.stargazers_count - a.stargazers_count);
+
+    return [...pinned, ...others].slice(0, limit);
   } catch {
     return [];
   }

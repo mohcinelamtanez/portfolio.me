@@ -19,7 +19,10 @@ export const siteConfig = {
     githubUsername: "mohcinelamtanez",
   },
 
-  resumeUrl: "/resume.pdf",
+  // Repositories shown as pinned in the GitHub section, in this order.
+  pinnedRepos: ["BanqueApp-SpringBoot", "medPredict", "portfolio.me"],
+
+  resumeUrl: "/Mohcine_Lamtanez_CV.pdf",
 
   keywords: [
     "Product Engineer",

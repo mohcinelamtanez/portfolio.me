@@ -58,7 +58,7 @@ function runCommand(raw: string, close: () => void): string[] {
 
   if (cmd === "resume") {
     window.open(siteConfig.resumeUrl, "_blank");
-    return ["Opening resume.pdf…"];
+    return ["Opening résumé…"];
   }
 
   if (cmd === "github") {

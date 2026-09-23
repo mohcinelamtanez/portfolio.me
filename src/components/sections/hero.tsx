@@ -73,15 +73,25 @@ export function Hero() {
           </dl>
         </div>
 
-        <div className="relative mx-auto aspect-square w-44 shrink-0 overflow-hidden rounded-full border border-border shadow-sm sm:w-56 md:mx-0 md:mt-6 md:w-64 lg:w-72 xl:w-80">
-          <Image
-            src="/profile.png"
-            alt={siteConfig.name}
-            fill
-            sizes="(min-width: 1280px) 320px, (min-width: 1024px) 288px, (min-width: 768px) 256px, (min-width: 640px) 224px, 176px"
-            className="object-cover"
-            priority
+        <div className="relative mx-auto w-44 shrink-0 sm:w-56 md:mx-0 md:mt-6 md:w-64 lg:w-72 xl:w-80">
+          <div
+            className="pointer-events-none absolute -inset-8 rounded-full bg-accent/15 blur-3xl"
+            aria-hidden="true"
           />
+          <div className="relative aspect-square rounded-full bg-gradient-to-br from-accent via-accent/20 to-accent/70 p-[3px] shadow-2xl shadow-black/50">
+            <div className="h-full w-full rounded-full bg-background p-[5px]">
+              <div className="relative h-full w-full overflow-hidden rounded-full bg-surface">
+                <Image
+                  src="/profile.jpg"
+                  alt={siteConfig.name}
+                  fill
+                  sizes="(min-width: 1280px) 320px, (min-width: 1024px) 288px, (min-width: 768px) 256px, (min-width: 640px) 224px, 176px"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -52,7 +52,7 @@ component code for a standard update:
 | Certifications                  | `src/lib/data/certifications.ts`         |
 | Blog posts                      | `src/lib/data/blog.ts`                   |
 | GitHub username (for live data) | `siteConfig.social.githubUsername`       |
-| Resume file                     | replace `public/resume.pdf`              |
+| Resume file                     | `public/Mohcine_Lamtanez_CV.pdf` (`siteConfig.resumeUrl`) |
 | Favicon / OG image              | replace files in `public/`               |
 
 Each project in `projects.ts` follows the `ProjectCaseStudy` type
