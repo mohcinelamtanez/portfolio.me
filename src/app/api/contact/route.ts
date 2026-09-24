@@ -49,6 +49,47 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
+/** Visitor input is inserted into the HTML email, so it must never be interpreted as markup. */
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function buildEmail(name: string, email: string, message: string) {
+  const text = [
+    "New message from your portfolio contact form",
+    "",
+    `Name: ${name}`,
+    `Email: ${email}`,
+    "",
+    "Message:",
+    message,
+    "",
+    "Reply to this email to answer the visitor directly.",
+  ].join("\n");
+
+  const row = (label: string, value: string) =>
+    `<tr><td style="padding:4px 12px 4px 0;color:#6b7280;white-space:nowrap;vertical-align:top">${label}</td>` +
+    `<td style="padding:4px 0;color:#111827">${value}</td></tr>`;
+
+  const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;color:#111827">
+  <p style="margin:0 0 16px">New message from your portfolio contact form</p>
+  <table style="border-collapse:collapse;margin:0 0 16px">
+    ${row("Name", escapeHtml(name))}
+    ${row("Email", `<a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a>`)}
+  </table>
+  <p style="margin:0 0 4px;color:#6b7280">Message</p>
+  <div style="white-space:pre-wrap;padding:12px;border-left:3px solid #4f8cff;background:#f9fafb">${escapeHtml(message)}</div>
+  <p style="margin:16px 0 0;color:#6b7280;font-size:12px">Reply to this email to answer the visitor directly.</p>
+</div>`;
+
+  return { text, html };
+}
+
 function clientIp(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");
   return forwarded?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown";
@@ -98,8 +139,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Server is not configured to send messages." }, { status: 500 });
   }
 
-  // Keep the subject on a single line whatever the visitor typed.
+  // Keep the name on a single line whatever the visitor typed (it is used in the subject).
   const safeName = name.trim().replace(/[\r\n]+/g, " ");
+  const visitorEmail = email.trim();
+  const { text, html } = buildEmail(safeName, visitorEmail, message.trim());
 
   try {
     const resendRes = await fetch("https://api.resend.com/emails", {
@@ -109,11 +152,13 @@ export async function POST(request: Request) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        // Always sent from the configured sender; the visitor's address is only used as Reply-To.
         from: fromAddress,
         to: toAddress,
+        reply_to: visitorEmail,
         subject: `Portfolio contact from ${safeName}`,
-        text: `From: ${safeName} <${email.trim()}>\n\n${message}`,
-        reply_to: email.trim(),
+        text,
+        html,
       }),
     });
 
