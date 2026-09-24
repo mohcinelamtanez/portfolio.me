@@ -10,9 +10,9 @@ export const experience: ExperienceEntry[] = [
     end: "Present",
     location: "Casablanca, Morocco",
     highlights: [
-      "Design and develop TeamTrackingApp, a web application that answers a concrete operational need: digitalising task assignment, centralising its tracking and improving visibility on daily activity.",
-      "Lead the handling of B2B requests and orders, following the different work streams and resolving operational issues efficiently.",
-      "Analyse business processes and identify friction points in order to propose improvements that support better organisation, traceability and operational efficiency.",
+      "Design TeamTrackingApp to digitalise the assignment and tracking of operational tasks.",
+      "Lead B2B requests and work streams and contribute to resolving operational issues.",
+      "Optimise business processes to strengthen the traceability and efficiency of operations.",
     ],
   },
   {
@@ -23,11 +23,9 @@ export const experience: ExperienceEntry[] = [
     end: "2026-05",
     location: "Casablanca, Morocco",
     highlights: [
-      "Diagnosed and resolved B2B technical incidents, from the initial analysis through to resolution or escalation to specialised teams.",
-      "Ensured reliable processing and support quality, validating requests and rigorously following up technical cases.",
-      "Supported the teams in Morocco in resolving complex cases and contributed to raising the quality of operations.",
-      "Optimised incident-handling workflows and identified repetitive tasks that could be automated.",
-      "Used Excel and operational data to track activity, indicators and reporting.",
+      "Diagnosed and resolved B2B incidents, handling their follow-up and technical escalations.",
+      "Supported the teams and optimised workflows to strengthen operational efficiency.",
+      "Automated tasks and managed KPIs in Excel through operational reporting.",
     ],
   },
   {
@@ -38,9 +36,7 @@ export const experience: ExperienceEntry[] = [
     end: "2024-06",
     location: "Morocco",
     highlights: [
-      "Developed a full-stack Spring Boot & React.js platform integrating an automatic code generation solution.",
-      "Designed reliable REST APIs to structure data exchanges and data management.",
-      "Developed a responsive frontend and contributed to the architecture, testing and code quality.",
+      "Developed a full-stack Spring Boot/React.js platform with automatic code generation, REST APIs and a responsive frontend, ensuring quality and reliability.",
     ],
   },
   {
@@ -51,8 +47,7 @@ export const experience: ExperienceEntry[] = [
     end: "2023-06",
     location: "Morocco",
     highlights: [
-      "Developed a purchasing and supplier management application with Spring Boot & Angular, integrating REST APIs.",
-      "Contributed to development in an Agile/Scrum environment, ensuring code quality and meeting sprint objectives.",
+      "Developed a purchasing and supplier management application with Spring Boot/Angular and REST APIs, in an Agile/Scrum environment.",
     ],
   },
 ];

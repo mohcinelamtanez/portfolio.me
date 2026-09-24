@@ -13,9 +13,9 @@ export const experienceFr: Record<string, ExperienceTranslation> = {
     end: "Présent",
     location: "Casablanca, Maroc",
     highlights: [
-      "Concevoir et développer TeamTrackingApp, une application web répondant à un besoin opérationnel concret, afin de digitaliser l’affectation des tâches, centraliser leur suivi et améliorer la visibilité sur l’activité quotidienne.",
-      "Piloter le traitement des demandes et commandes B2B, en assurant le suivi des différents flux de travail et la résolution efficace des problématiques opérationnelles.",
-      "Analyser les processus métier et identifier les points de friction, afin de proposer des améliorations favorisant une meilleure organisation, traçabilité et efficacité opérationnelle.",
+      "Concevoir TeamTrackingApp pour digitaliser l’affectation et le suivi des tâches opérationnelles.",
+      "Piloter les demandes et flux B2B et contribuer à la résolution des problématiques opérationnelles.",
+      "Optimiser les processus métier pour renforcer la traçabilité et l’efficacité des opérations.",
     ],
   },
 
@@ -25,11 +25,9 @@ export const experienceFr: Record<string, ExperienceTranslation> = {
     end: "2026-05",
     location: "Casablanca, Maroc",
     highlights: [
-      "Diagnostiquer et résoudre les incidents techniques B2B, de l’analyse initiale jusqu’à la résolution ou l’escalade vers les équipes spécialisées.",
-      "Garantir la fiabilité des traitements et la qualité du support, avec validation des demandes et suivi rigoureux des dossiers techniques.",
-      "Accompagner les équipes au Maroc dans la résolution des cas complexes et contribuer à la montée en qualité des opérations.",
-      "Optimiser les workflows de traitement des incidents et identifier les tâches répétitives pouvant être automatisées.",
-      "Exploiter Excel et les données opérationnelles pour assurer le suivi des activités, des indicateurs et du reporting.",
+      "Diagnostiquer et résoudre les incidents B2B, assurer leur suivi et les escalades techniques.",
+      "Accompagner les équipes et optimiser les workflows pour renforcer l’efficacité opérationnelle.",
+      "Automatiser les tâches et piloter les KPI sous Excel via le reporting opérationnel.",
     ],
   },
 
@@ -39,9 +37,7 @@ export const experienceFr: Record<string, ExperienceTranslation> = {
     end: "2024-06",
     location: "Maroc",
     highlights: [
-      "Développer une plateforme Full Stack Spring Boot & React.js intégrant une solution de génération automatique de code.",
-      "Concevoir des API REST fiables pour structurer les échanges et la gestion des données.",
-      "Développer un frontend responsive et contribuer à l’architecture, aux tests et à la qualité du code.",
+      "Développer une plateforme Full Stack Spring Boot/React.js avec génération automatique de code, API REST et frontend responsive, en garantissant qualité et fiabilité.",
     ],
   },
 
@@ -51,8 +47,7 @@ export const experienceFr: Record<string, ExperienceTranslation> = {
     end: "2023-06",
     location: "Maroc",
     highlights: [
-      "Développer une application de gestion des achats et fournisseurs avec Spring Boot & Angular, intégrant des API REST.",
-      "Contribuer au développement en environnement Agile/Scrum, en garantissant qualité du code et respect des objectifs de sprint.",
+      "Développer une application de gestion des achats et fournisseurs sous Spring Boot/Angular avec API REST, en environnement Agile/Scrum.",
     ],
   },
 };
