@@ -20,7 +20,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_FILL_TIME_MS = 3000;
 
 /**
- * Best-effort rate limit: 3 messages per IP every 10 minutes.
+ * Best-effort rate limit: 3 messages per IP every 10 minutes (production only).
  * The counter lives in the memory of the running edge instance, so it resets on
  * cold starts and isn't shared between regions. It stops bursts from a single
  * client; for a strict global limit, use a shared store (e.g. Upstash Redis)
@@ -90,9 +90,14 @@ function buildEmail(name: string, email: string, message: string) {
   return { text, html };
 }
 
-function clientIp(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for");
-  return forwarded?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown";
+/**
+ * The visitor's IP as reported by the hosting proxy (Vercel sets both headers).
+ * Returns null when it can't be determined, so unidentified visitors are never
+ * lumped together into one shared bucket.
+ */
+function clientIp(request: Request): string | null {
+  const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  return forwarded || request.headers.get("x-real-ip")?.trim() || null;
 }
 
 export async function POST(request: Request) {
@@ -126,7 +131,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Message is too long." }, { status: 422 });
   }
 
-  if (isRateLimited(clientIp(request))) {
+  // Skipped in development: every local test comes from the same machine and would hit the limit.
+  const ip = process.env.NODE_ENV === "production" ? clientIp(request) : null;
+  if (ip && isRateLimited(ip)) {
     return NextResponse.json({ error: "Too many messages. Please try again later." }, { status: 429 });
   }
 
