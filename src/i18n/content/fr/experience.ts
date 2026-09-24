@@ -10,7 +10,7 @@ export const experienceFr: Record<string, ExperienceTranslation> = {
   "telus-excellence": {
     role: "Support Technique B2B & Excellence Opérationnelle",
     start: "2026-06",
-    end: "Présent",
+    end: "2026-09",
     location: "Casablanca, Maroc",
     highlights: [
       "Concevoir TeamTrackingApp pour digitaliser l’affectation et le suivi des tâches opérationnelles.",
@@ -26,8 +26,6 @@ export const experienceFr: Record<string, ExperienceTranslation> = {
     location: "Casablanca, Maroc",
     highlights: [
       "Diagnostiquer et résoudre les incidents B2B, assurer leur suivi et les escalades techniques.",
-      "Accompagner les équipes et optimiser les workflows pour renforcer l’efficacité opérationnelle.",
-      "Automatiser les tâches et piloter les KPI sous Excel via le reporting opérationnel.",
     ],
   },
 

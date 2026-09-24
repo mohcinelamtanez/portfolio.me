@@ -24,8 +24,6 @@ export const experience: ExperienceEntry[] = [
     location: "Casablanca, Morocco",
     highlights: [
       "Diagnosed and resolved B2B incidents, handling their follow-up and technical escalations.",
-      "Supported the teams and optimised workflows to strengthen operational efficiency.",
-      "Automated tasks and managed KPIs in Excel through operational reporting.",
     ],
   },
   {
