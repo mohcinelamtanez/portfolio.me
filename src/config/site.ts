@@ -5,7 +5,7 @@ export const siteConfig = {
   tagline: "I start with the problem, then build the software that solves it.",
   description:
     "Early-career Product Engineer with a software engineering foundation in Java, Spring Boot and React. I work across the whole product: clarifying the need, deciding what's worth building first, designing the API and data model, and shipping something secure and maintainable. I use AI where it genuinely adds value.",
-  url: "https://MohcineLamtanez.dev",
+  url: "https://mohcinelamtanez.vercel.app",
   ogImage: "/og-image.png",
   email: "lamtanezmohcine95@gmail.com",
   location: "Casablanca, Morocco · Open to Remote",
